@@ -6,9 +6,9 @@ public class PlayerMovement : MonoBehaviour
 {
     // Vector3 velocity
 
-    [SerializeField] float moveSpeed = 0.2f;
-    [SerializeField] float turnSpeed = 0.5f;
-    [SerializeField] float rollSpeed = 0.2f;
+    [SerializeField] float moveSpeed = 1.0f;
+    [SerializeField] float turnSpeed = 1.0f;
+    [SerializeField] float rollSpeed = 1.0f;
     [SerializeField] bool invertY = false;
 
     Rigidbody body;
