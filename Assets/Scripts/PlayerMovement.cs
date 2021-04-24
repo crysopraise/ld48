@@ -5,14 +5,15 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Vector3 velocity
+    // movement code taken from http://wiki.unity3d.com/index.php/SixDPhysicsController
+
+    [SerializeField] GameObject torpedoPrefab;
+    [SerializeField] GameObject laserPrefab;
 
     [SerializeField] float moveSpeed = 1.0f;
     [SerializeField] float turnSpeed = 1.0f;
     [SerializeField] float rollSpeed = 1.0f;
     [SerializeField] bool invertY = false;
-
-    [SerializeField] GameObject laserPrefab;
 
     [SerializeField] float laserBaseFireRate = 1.0f;
     [SerializeField] float laserOverheatedFireRate = 1.0f;
@@ -32,8 +33,6 @@ public class PlayerMovement : MonoBehaviour
 
     bool laserBarrelAlternate;   // lasers alternate between being fired from left and right barrels
 
-    [SerializeField] GameObject torpedoPrefab;
-
     [SerializeField] float torpedoFireRate = 1.0f;
     float torpedoShotTimer;
 
@@ -41,6 +40,17 @@ public class PlayerMovement : MonoBehaviour
     int torpedoCount;
 
     Rigidbody body;
+
+    [SerializeField] GameObject shipboard;
+
+    [SerializeField] float harpoonDrag;
+
+    [SerializeField] GameObject harpoon;
+    Rigidbody harpoonBody;
+    FixedJoint harpoonJoint;
+    Vector3 harpoonAttachmentPoint;
+    Quaternion harpoonAttachmentRotation;
+    bool harpoonAttached;
 
     [SerializeField] GameObject laserTextObject;
     Text laserText;
@@ -68,6 +78,13 @@ public class PlayerMovement : MonoBehaviour
         laserBarrelAlternate = false;
 
         torpedoCount = torpedoLimit;
+
+        harpoonBody = harpoon.GetComponent<Rigidbody>();
+
+        harpoonAttachmentPoint = gameObject.transform.InverseTransformPoint(harpoon.transform.position);
+        harpoonAttachmentRotation = Quaternion.Inverse(gameObject.transform.rotation) * harpoon.transform.rotation;
+
+        ReloadHarpoon();
     }
 
     private void OnEnable()
@@ -120,6 +137,21 @@ public class PlayerMovement : MonoBehaviour
         }
 
         UpdateUIText();
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space))
+        {
+            if (harpoonAttached)
+            {
+                FireHarpoon();
+            }
+            else
+            {
+                ReloadHarpoon();
+            }
+        }
     }
 
     Vector3 GetDirection()
@@ -243,5 +275,29 @@ public class PlayerMovement : MonoBehaviour
         {
 
         }
+    }
+
+    private void FireHarpoon()
+    {
+        Destroy(harpoonJoint);
+        harpoonAttached = false;
+        harpoonBody.velocity = new Vector3(0, 0, 0);
+        harpoonBody.AddForce(harpoon.transform.up.normalized * 1000.0f);
+        harpoonBody.drag = harpoonDrag;
+        harpoonBody.angularDrag = harpoonDrag;
+    }
+
+    private void ReloadHarpoon()
+    {
+        harpoon.transform.position = gameObject.transform.position + gameObject.transform.rotation * harpoonAttachmentPoint;
+        harpoon.transform.rotation = gameObject.transform.rotation * harpoonAttachmentRotation;
+        harpoonBody.velocity = body.velocity;
+        harpoonBody.drag = 0;
+
+        harpoon.AddComponent<FixedJoint>();
+        harpoonJoint = harpoon.GetComponent<FixedJoint>();
+        harpoonJoint.connectedBody = body;
+
+        harpoonAttached = true;
     }
 }
