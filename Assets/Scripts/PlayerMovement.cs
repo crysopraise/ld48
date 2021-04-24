@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -29,12 +30,26 @@ public class PlayerMovement : MonoBehaviour
 
     bool laserIsOverheated;
 
+    bool laserBarrelAlternate;   // lasers alternate between being fired from left and right barrels
+
     [SerializeField] GameObject torpedoPrefab;
 
     [SerializeField] float torpedoFireRate = 1.0f;
     float torpedoShotTimer;
 
+    [SerializeField] int torpedoLimit;
+    int torpedoCount;
+
     Rigidbody body;
+
+    [SerializeField] GameObject laserTextObject;
+    Text laserText;
+    [SerializeField] GameObject laserHeatTextObject;
+    Text laserHeatText;
+    [SerializeField] GameObject torpedoTextObject;
+    Text torpedoText;
+    [SerializeField] GameObject torpedoCountTextObject;
+    Text torpedoCountText;
 
     // Start is called before the first frame update
     void Start()
@@ -42,9 +57,17 @@ public class PlayerMovement : MonoBehaviour
         // velocity = new Vector3(0, 0, 0);
         body = this.GetComponent<Rigidbody>();
 
+        laserText = laserTextObject.GetComponent<Text>();
+        laserHeatText = laserHeatTextObject.GetComponent<Text>();
+        torpedoText = torpedoTextObject.GetComponent<Text>();
+        torpedoCountText = torpedoCountTextObject.GetComponent<Text>();
+
         laserShotTimer = 0;
         laserHeat = 0;
         laserIsOverheated = false;
+        laserBarrelAlternate = false;
+
+        torpedoCount = torpedoLimit;
     }
 
     private void OnEnable()
@@ -61,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
         if (laserShotTimer >= 0)
         {
             laserShotTimer -= Time.fixedDeltaTime;
+            laserHeat += Time.fixedDeltaTime;
         } else
         {
             //if (Input.GetKey(KeyCode.Space) && !laserIsOverheated)
@@ -94,6 +118,8 @@ public class PlayerMovement : MonoBehaviour
                 FireTorpedo();
             }
         }
+
+        UpdateUIText();
     }
 
     Vector3 GetDirection()
@@ -119,9 +145,56 @@ public class PlayerMovement : MonoBehaviour
         return new Vector3(pitch * turnSpeed, yaw * turnSpeed, roll * rollSpeed);
     }
 
-    private Vector3 FiringPoint()   // The point that weapons are fired from
+    private void UpdateUIText()
     {
-        //return gameObject.transform.position - gameObject.transform.up * 0.25f + gameObject.transform.forward * 0.65f;
+        float laserHeatPercentage = laserHeat / laserOverheatThreshold * 100.0f;
+        laserHeatText.text = (int)laserHeatPercentage + "%";
+        if (laserIsOverheated)
+        {
+            laserText.color = Color.red;
+            laserHeatText.color = Color.red;
+        }
+        else if(laserHeatPercentage > 70.0f)
+        {
+            laserText.color = Color.yellow;
+            laserHeatText.color = Color.yellow;
+        } else
+        {
+            laserText.color = Color.gray;
+            laserHeatText.color = Color.gray;
+        }
+
+        torpedoCountText.text = torpedoCount.ToString();
+        if(torpedoCount <= 0)
+        {
+            torpedoText.color = Color.red;
+            torpedoCountText.color = Color.red;
+        } else if (torpedoCount <= 3)
+        {
+            torpedoText.color = Color.yellow;
+            torpedoCountText.color = Color.yellow;
+        } else
+        {
+            torpedoText.color = Color.gray;
+            torpedoCountText.color = Color.gray;
+        }
+    }
+
+    private Vector3 LaserFiringPoint()   // The point that weapons are fired from
+    {
+        if (laserBarrelAlternate)
+        {
+            laserBarrelAlternate = false;
+            return gameObject.transform.position - gameObject.transform.up * 0.2f + gameObject.transform.right * 0.66f + gameObject.transform.forward * 0.04f;
+        } else
+        {
+            laserBarrelAlternate = true;
+            return gameObject.transform.position - gameObject.transform.up * 0.2f - gameObject.transform.right * 0.66f + gameObject.transform.forward * 0.04f;
+        }
+    }
+
+    private Vector3 TorpedoFiringPoint()   // The point that weapons are fired from
+    {
         return gameObject.transform.position - gameObject.transform.up * 0.25f;
     }
 
@@ -141,30 +214,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void FireLaser()
     {
-        GameObject newLaser = Instantiate(laserPrefab, FiringPoint(), gameObject.transform.rotation);
+        GameObject newLaser = Instantiate(laserPrefab, LaserFiringPoint(), gameObject.transform.rotation);
         Physics.IgnoreCollision(newLaser.GetComponent<Collider>(), GetComponent<Collider>());
 
         Vector3 firingDirection = gameObject.transform.forward + Random.insideUnitSphere * LaserSpreadRadius();
 
-        // newLaser.GetComponent<Rigidbody>().velocity = firingDirection.normalized * 50.0f + body.velocity;
-        newLaser.GetComponent<Rigidbody>().velocity = body.velocity;
+        //newLaser.GetComponent<Rigidbody>().velocity = body.velocity;
         newLaser.GetComponent<Rigidbody>().AddForce(firingDirection.normalized * 50.0f);
         laserShotTimer = LaserFireRate();
-        laserHeat += LaserFireRate();
-
-        Debug.Log(laserHeat);
+        //laserHeat += LaserFireRate();
     }
 
     private void FireTorpedo()
     {
-        GameObject newTorpedo = Instantiate(torpedoPrefab, FiringPoint(), gameObject.transform.rotation);
-        Physics.IgnoreCollision(newTorpedo.GetComponent<Collider>(), GetComponent<Collider>());
+        if (torpedoCount >= 1)
+        {
+            GameObject newTorpedo = Instantiate(torpedoPrefab, TorpedoFiringPoint(), gameObject.transform.rotation);
+            Physics.IgnoreCollision(newTorpedo.GetComponent<Collider>(), GetComponent<Collider>());
 
-        Vector3 firingDirection = gameObject.transform.forward;
+            Vector3 firingDirection = gameObject.transform.forward;
 
-        // newTorpedo.GetComponent<Rigidbody>().velocity = firingDirection.normalized * 0.5f + body.velocity;
-        newTorpedo.GetComponent<Rigidbody>().velocity = body.velocity;
-        newTorpedo.GetComponent<Rigidbody>().AddForce(firingDirection.normalized * 0.5f);
-        torpedoShotTimer = torpedoFireRate;
+            //newTorpedo.GetComponent<Rigidbody>().velocity = body.velocity;
+            newTorpedo.GetComponent<Rigidbody>().AddForce(firingDirection.normalized * 0.5f);
+            torpedoShotTimer = torpedoFireRate;
+
+            torpedoCount -= 1;
+        } else
+        {
+
+        }
     }
 }
