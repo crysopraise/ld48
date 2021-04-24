@@ -247,7 +247,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1082151538}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!108 &192669958
 Light:
@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 1082151533}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -543,7 +543,14 @@ MonoBehaviour:
   rollSpeed: 0.1
   invertY: 0
   laserPrefab: {fileID: 3322053028938406802, guid: 176e2522fad8b4946be5beeb7e16c1fb, type: 3}
-  laserFireRate: 0.2
+  laserBaseFireRate: 0.05
+  laserOverheatedFireRate: 0.2
+  laserBaseSpreadRadius: 0.01
+  laserOverheatedSpreadRadius: 0.1
+  laserOverheatThreshold: 2.5
+  laserCooldownTime: 2.5
+  torpedoPrefab: {fileID: 3322053028938406802, guid: c6d970ec476942c43bfb73339c7b5d77, type: 3}
+  torpedoFireRate: 1
 --- !u!135 &1082151535
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -618,7 +625,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1041690243}
-  - {fileID: 1390272872}
   - {fileID: 192669957}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -709,12 +715,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1390272870}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.7, y: 2.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1082151538}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1816821038
 GameObject:
