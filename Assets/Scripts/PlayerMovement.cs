@@ -46,11 +46,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float harpoonDrag;
 
     [SerializeField] GameObject harpoon;
+
+    [SerializeField] float harpoonRopeMaxLength;
+    float harpoonRopeLength;
+
     Rigidbody harpoonBody;
     FixedJoint harpoonJoint;
     Vector3 harpoonAttachmentPoint;
     Quaternion harpoonAttachmentRotation;
     bool harpoonAttached;
+    ConfigurableJoint harpoonRopeJoint;
+
+    HarpoonScript harpoonScript;
 
     [SerializeField] GameObject laserTextObject;
     Text laserText;
@@ -83,6 +90,12 @@ public class PlayerMovement : MonoBehaviour
 
         harpoonAttachmentPoint = gameObject.transform.InverseTransformPoint(harpoon.transform.position);
         harpoonAttachmentRotation = Quaternion.Inverse(gameObject.transform.rotation) * harpoon.transform.rotation;
+
+        harpoonRopeJoint = harpoon.GetComponent<ConfigurableJoint>();
+
+        harpoonScript = harpoon.GetComponent<HarpoonScript>();
+
+        harpoonRopeLength = harpoonRopeMaxLength;
 
         ReloadHarpoon();
     }
@@ -124,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        // torpedo firing script
         if (torpedoShotTimer >= 0)
         {
             torpedoShotTimer -= Time.fixedDeltaTime;
@@ -136,11 +150,42 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        // reel in harpoon
+        if (Input.GetKey(KeyCode.R))
+        {
+            if(!harpoonAttached)
+            {
+                harpoonRopeLength -= 2.0f * Time.fixedDeltaTime;
+
+                float harpoonDistance = (harpoonAttachmentPoint - gameObject.transform.InverseTransformPoint(harpoon.transform.position)).magnitude;
+                if (harpoonRopeLength > harpoonDistance)
+                {
+                    harpoonRopeLength = harpoonDistance;
+                }
+
+                if(harpoonScript.stuckInTerrain)
+                {
+                    harpoonScript.DetachHarpoon();
+                }
+
+                if (harpoonRopeLength <= 0)
+                {
+                    ReloadHarpoon();
+                } else {
+                    SoftJointLimit newLimit = harpoonRopeJoint.linearLimit;
+                    newLimit.limit = harpoonRopeLength;
+                    harpoonRopeJoint.linearLimit = newLimit;
+                }
+            }
+        }
+
         UpdateUIText();
     }
 
     private void Update()
     {
+        // Move this to FixedUpdate eventually?
+        // Note: ButtonDown does not work on FixedUpdate; must find way around this
         if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space))
         {
             if (harpoonAttached)
@@ -282,13 +327,16 @@ public class PlayerMovement : MonoBehaviour
         Destroy(harpoonJoint);
         harpoonAttached = false;
         harpoonBody.velocity = new Vector3(0, 0, 0);
-        harpoonBody.AddForce(harpoon.transform.up.normalized * 1000.0f);
+        harpoonBody.AddForce(harpoon.transform.forward.normalized * 1000.0f);
         harpoonBody.drag = harpoonDrag;
         harpoonBody.angularDrag = harpoonDrag;
+        harpoonScript.FireHarpoon();
     }
 
     private void ReloadHarpoon()
     {
+        harpoonScript.DetachHarpoon();
+
         harpoon.transform.position = gameObject.transform.position + gameObject.transform.rotation * harpoonAttachmentPoint;
         harpoon.transform.rotation = gameObject.transform.rotation * harpoonAttachmentRotation;
         harpoonBody.velocity = body.velocity;
@@ -299,5 +347,12 @@ public class PlayerMovement : MonoBehaviour
         harpoonJoint.connectedBody = body;
 
         harpoonAttached = true;
+
+        // Reset harpoon rope length
+        harpoonRopeLength = harpoonRopeMaxLength;
+
+        SoftJointLimit newLimit = harpoonRopeJoint.linearLimit;
+        newLimit.limit = harpoonRopeLength;
+        harpoonRopeJoint.linearLimit = newLimit;
     }
 }
