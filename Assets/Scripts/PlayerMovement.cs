@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float rollSpeed = 1.0f;
     [SerializeField] bool invertY = false;
 
+    [SerializeField] float LaserTravelSpeed = 100f;
+
     [SerializeField] float laserBaseFireRate = 1.0f;
     [SerializeField] float laserOverheatedFireRate = 1.0f;
 
@@ -297,7 +299,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 firingDirection = gameObject.transform.forward + Random.insideUnitSphere * LaserSpreadRadius();
 
         //newLaser.GetComponent<Rigidbody>().velocity = body.velocity;
-        newLaser.GetComponent<Rigidbody>().AddForce(firingDirection.normalized * 50.0f);
+        newLaser.GetComponent<Rigidbody>().AddForce(firingDirection.normalized * LaserTravelSpeed);
         laserShotTimer = LaserFireRate();
         //laserHeat += LaserFireRate();
     }
@@ -327,7 +329,7 @@ public class PlayerMovement : MonoBehaviour
         Destroy(harpoonJoint);
         harpoonAttached = false;
         harpoonBody.velocity = new Vector3(0, 0, 0);
-        harpoonBody.AddForce(harpoon.transform.forward.normalized * 1000.0f);
+        harpoonBody.AddForce(harpoon.transform.forward.normalized * 1000f);
         harpoonBody.drag = harpoonDrag;
         harpoonBody.angularDrag = harpoonDrag;
         harpoonScript.FireHarpoon();

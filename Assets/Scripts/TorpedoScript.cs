@@ -7,7 +7,7 @@ public class TorpedoScript : MonoBehaviour
     [SerializeField] GameObject impactPrefab;
     Rigidbody body;
 
-    float armingTime = 0.5f;
+    float armingTime = 0.25f;
     float lifetime;
 
     // Start is called before the first frame update
@@ -26,7 +26,7 @@ public class TorpedoScript : MonoBehaviour
     private void FixedUpdate()
     {
         // body.velocity += gameObject.transform.forward * Time.fixedDeltaTime * 30.0f;
-        body.AddForce(gameObject.transform.forward * Time.fixedDeltaTime * 30.0f);
+        body.AddForce(gameObject.transform.forward * Time.fixedDeltaTime * 90.0f);
         lifetime += Time.fixedDeltaTime;
     }
 
@@ -34,8 +34,8 @@ public class TorpedoScript : MonoBehaviour
     {
         if (lifetime >= armingTime)
         {
+            Instantiate(impactPrefab, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
-            //Instantiate(impactPrefab, this.transform.position, Quaternion.identity);
         }
     }
 }
