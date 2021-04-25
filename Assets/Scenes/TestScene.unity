@@ -791,6 +791,7 @@ MonoBehaviour:
   torpedoLimit: 5
   shipboard: {fileID: 2130300180}
   harpoonDrag: 0.67
+  harpoonReelDelay: 1
   harpoon: {fileID: 1538451224}
   harpoonRopeMaxLength: 20
   laserTextObject: {fileID: 1929254796}

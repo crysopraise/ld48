@@ -51,6 +51,9 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float harpoonDrag;
 
+    [SerializeField] float harpoonReelDelay;    // The time you must wait after firing the harpoon before starting to reel it in
+    float harpoonReelTimer;
+
     [SerializeField] GameObject harpoon;
 
     [SerializeField] float harpoonRopeMaxLength;
@@ -126,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetMouseButton(0) && !laserIsOverheated)
             {
                 FireLaser();
-                if(laserHeat > laserOverheatThreshold)
+                if (laserHeat > laserOverheatThreshold)
                 {
                     laserIsOverheated = true;
                 }
@@ -155,8 +158,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (harpoonReelTimer >= 0)
+        {
+            harpoonReelTimer -= Time.fixedDeltaTime;
+        }
+
         // reel in harpoon
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKey(KeyCode.Space) && harpoonReelTimer <= 0)
         {
             if(!harpoonAttached)
             {
@@ -336,6 +344,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FireHarpoon()
     {
+        harpoonReelTimer = harpoonReelDelay;
+
         Destroy(harpoonJoint);
         harpoonAttached = false;
         harpoonBody.velocity = new Vector3(0, 0, 0);
