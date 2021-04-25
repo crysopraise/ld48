@@ -8,6 +8,8 @@ public class HarpoonScript : MonoBehaviour
     public bool stuckInTerrain;
     public bool harpoonFlying;
 
+    int damage = 3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,12 @@ public class HarpoonScript : MonoBehaviour
             {
                 stuckInTerrain = true;
             }
+
+            if (other.gameObject.tag == "Enemy")
+            {
+                EnemyHealthScript s = other.gameObject.GetComponent<EnemyHealthScript>();
+                s.Damage(damage);
+            }
         }
     }
 
@@ -50,6 +58,14 @@ public class HarpoonScript : MonoBehaviour
     {
         harpoonFlying = false;
         stuckInTerrain = false;
-        DestroyImmediate(strikeJoint);
+        if (strikeJoint)
+        {
+            DestroyImmediate(strikeJoint);
+        }
+    }
+
+    public bool EnemyStuck()
+    {
+        return (strikeJoint && !stuckInTerrain);
     }
 }

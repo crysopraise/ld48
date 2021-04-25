@@ -9,6 +9,7 @@ public class TorpedoScript : MonoBehaviour
 
     float armingTime = 0.25f;
     float lifetime;
+    int damage = 20;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,18 @@ public class TorpedoScript : MonoBehaviour
         {
             Instantiate(impactPrefab, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+
+            Collider[] objectsWithinExplosion = Physics.OverlapSphere(transform.position, 10.0f);
+
+            Debug.Log(objectsWithinExplosion.Length);
+
+            foreach (Collider c in objectsWithinExplosion) {
+                if (c.gameObject.tag == "Enemy")
+                {
+                    EnemyHealthScript s = c.gameObject.GetComponent<EnemyHealthScript>();
+                    s.Damage(damage);
+                }
+            }
         }
     }
 }

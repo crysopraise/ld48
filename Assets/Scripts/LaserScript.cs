@@ -5,6 +5,7 @@ using UnityEngine;
 public class LaserScript : MonoBehaviour
 {
     float lifetime;
+    int damage = 1;
 
     [SerializeField] GameObject impactPrefab;
     
@@ -29,6 +30,12 @@ public class LaserScript : MonoBehaviour
         {
             Instantiate(impactPrefab, this.transform.position, Quaternion.identity);
             Destroy(this.gameObject);
+        }
+
+        if(collision.gameObject.tag == "Enemy")
+        {
+            EnemyHealthScript s = collision.gameObject.GetComponent<EnemyHealthScript>();
+            s.Damage(damage);
         }
     }
 

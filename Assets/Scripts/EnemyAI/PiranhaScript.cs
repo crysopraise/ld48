@@ -11,6 +11,8 @@ public class PiranhaScript : MonoBehaviour
     [SerializeField] float AttackDelay;
     [SerializeField] float FacingMargin;
 
+    [SerializeField] int Health;
+
     float DETECTION_RANGE = 100;
 
     GameObject player;
@@ -41,7 +43,7 @@ public class PiranhaScript : MonoBehaviour
                 // bool isFacingPlayer = facingDifference.sqrMagnitude < FacingMargin * FacingMargin;
                 float angleDiff = Vector3.Angle(transform.forward, playerHeading);
                 bool isFacingPlayer = angleDiff < FacingMargin;
-                Debug.Log("Is facing player: "+isFacingPlayer+" - "+ angleDiff);
+                //Debug.Log("Is facing player: "+isFacingPlayer+" - "+ angleDiff);
                 Vector3 cross = Vector3.Cross(transform.forward, playerHeading);
                 rb.AddRelativeTorque(cross * angleDiff * TurnSpeed, ForceMode.Acceleration);
                 if (isFacingPlayer) {
