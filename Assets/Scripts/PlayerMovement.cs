@@ -19,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
     //[SerializeField] float torpedoDamage = 10.0f;
     //[SerializeField] float harpoonDamage = 3.0f;
 
+    [SerializeField] int maxHealth;
+    int health;
+    [SerializeField] float healthRegenDelay;
+    [SerializeField] int healthRegenRate;
+
     [SerializeField] float LaserTravelSpeed = 100f;
 
     [SerializeField] float laserBaseFireRate = 1.0f;
@@ -82,6 +87,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject torpedoCountTextObject;
     Text torpedoCountText;
 
+    AudioSource audioSource;
+    [SerializeField] AudioClip damageSoundClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -98,6 +106,8 @@ public class PlayerMovement : MonoBehaviour
         laserIsOverheated = false;
         laserBarrelAlternate = false;
 
+        health = maxHealth;
+
         torpedoCount = torpedoLimit;
 
         harpoonBody = harpoon.GetComponent<Rigidbody>();
@@ -112,6 +122,8 @@ public class PlayerMovement : MonoBehaviour
         harpoonRopeLength = harpoonRopeMaxLength;
 
         harpoonRopeRenderer = gameObject.GetComponent<LineRenderer>();
+
+        audioSource = gameObject.GetComponent<AudioSource>();
 
         ReloadHarpoon();
     }
@@ -215,9 +227,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // Move this to FixedUpdate eventually?
-        // Note: ButtonDown does not work on FixedUpdate; must find way around this
-        if (Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Space))
+        // This code has to be in Update because GetKeyDown doesn't work with FixedUpdate
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (harpoonAttached)
             {
@@ -286,9 +297,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private Vector3 LaserFiringPoint()   // The point that weapons are fired from
+    private Vector3 LaserFiringPoint()   // Get location to fire laser projectile from
     {
-        if (laserBarrelAlternate)
+        if (laserBarrelAlternate)   // Alternates between firing from the left and right barrels
         {
             laserBarrelAlternate = false;
             return gameObject.transform.position - gameObject.transform.up * 0.2f + gameObject.transform.right * 0.66f + gameObject.transform.forward * 0.04f;
@@ -322,13 +333,13 @@ public class PlayerMovement : MonoBehaviour
     {
         GameObject newLaser = Instantiate(laserPrefab, LaserFiringPoint(), gameObject.transform.rotation);
         Physics.IgnoreCollision(newLaser.GetComponent<Collider>(), GetComponent<Collider>());
+        Physics.IgnoreCollision(newLaser.GetComponent<Collider>(), harpoon.GetComponent<MeshCollider>());
+        Physics.IgnoreCollision(newLaser.GetComponent<Collider>(), harpoon.GetComponent<SphereCollider>());
 
         Vector3 firingDirection = gameObject.transform.forward + Random.insideUnitSphere * LaserSpreadRadius();
 
-        //newLaser.GetComponent<Rigidbody>().velocity = body.velocity;
         newLaser.GetComponent<Rigidbody>().AddForce(firingDirection.normalized * LaserTravelSpeed);
         laserShotTimer = LaserFireRate();
-        //laserHeat += LaserFireRate();
     }
 
     private void FireTorpedo()
@@ -337,10 +348,11 @@ public class PlayerMovement : MonoBehaviour
         {
             GameObject newTorpedo = Instantiate(torpedoPrefab, TorpedoFiringPoint(), gameObject.transform.rotation);
             Physics.IgnoreCollision(newTorpedo.GetComponent<Collider>(), GetComponent<Collider>());
+            Physics.IgnoreCollision(newTorpedo.GetComponent<Collider>(), harpoon.GetComponent<MeshCollider>());
+            Physics.IgnoreCollision(newTorpedo.GetComponent<Collider>(), harpoon.GetComponent<SphereCollider>());
 
             Vector3 firingDirection = gameObject.transform.forward;
 
-            //newTorpedo.GetComponent<Rigidbody>().velocity = body.velocity;
             newTorpedo.GetComponent<Rigidbody>().AddForce(firingDirection.normalized * 0.5f);
             torpedoShotTimer = torpedoFireRate;
 
@@ -385,5 +397,22 @@ public class PlayerMovement : MonoBehaviour
         SoftJointLimit newLimit = harpoonRopeJoint.linearLimit;
         newLimit.limit = harpoonRopeLength;
         harpoonRopeJoint.linearLimit = newLimit;
+    }
+
+    public void Damage(int d)
+    {
+        health -= d;
+        Debug.Log("Took " + d + " damage");
+        audioSource.clip = damageSoundClip;
+        audioSource.Play();
+        if(health <= 0)
+        {
+            // game over!
+        }
+    }
+
+    public void RegenHealth()
+    {
+        health += healthRegenRate;
     }
 }

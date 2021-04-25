@@ -10,6 +10,7 @@ public class PiranhaScript : MonoBehaviour
     [SerializeField] float TurnSpeed;
     [SerializeField] float AttackDelay;
     [SerializeField] float FacingMargin;
+    [SerializeField] int AttackDamage;
 
     float DETECTION_RANGE = 100;
 
@@ -58,6 +59,7 @@ public class PiranhaScript : MonoBehaviour
             // Damage player
 
             rb.AddRelativeForce(Vector3.back * KnockBackVelocity, ForceMode.VelocityChange);
+            collision.gameObject.GetComponent<PlayerMovement>().Damage(AttackDamage);
             canAttack = false;
             Invoke("ResetAttack", AttackDelay);
         }

@@ -211,6 +211,7 @@ MonoBehaviour:
   TurnSpeed: 5
   AttackDelay: 2
   FacingMargin: 10
+  AttackDamage: 5
 --- !u!114 &8950991675690639972
 MonoBehaviour:
   m_ObjectHideFlags: 0
