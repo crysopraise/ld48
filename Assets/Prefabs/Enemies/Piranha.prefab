@@ -207,8 +207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackVelocity: 30
   SwimVelocity: 23
-  TurnSpeed: 4
-  AttackDelay: 1.5
+  KnockBackVelocity: 20
+  TurnSpeed: 5
+  AttackDelay: 2
   FacingMargin: 10
 --- !u!114 &8950991675690639972
 MonoBehaviour:
@@ -234,7 +235,7 @@ Rigidbody:
   m_GameObject: {fileID: 5833048960511419693}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.1
+  m_Drag: 1
   m_AngularDrag: 10
   m_UseGravity: 0
   m_IsKinematic: 0

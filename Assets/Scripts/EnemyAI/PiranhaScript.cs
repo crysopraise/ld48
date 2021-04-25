@@ -6,6 +6,7 @@ public class PiranhaScript : MonoBehaviour
 {
     [SerializeField] float AttackVelocity;
     [SerializeField] float SwimVelocity;
+    [SerializeField] float KnockBackVelocity;
     [SerializeField] float TurnSpeed;
     [SerializeField] float AttackDelay;
     [SerializeField] float FacingMargin;
@@ -56,7 +57,7 @@ public class PiranhaScript : MonoBehaviour
         if(collision.gameObject.CompareTag("Player")) {
             // Damage player
 
-            rb.velocity = Vector3.back * SwimVelocity;
+            rb.AddRelativeForce(Vector3.back * KnockBackVelocity, ForceMode.VelocityChange);
             canAttack = false;
             Invoke("ResetAttack", AttackDelay);
         }
