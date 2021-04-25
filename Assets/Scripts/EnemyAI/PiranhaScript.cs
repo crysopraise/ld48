@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class PiranhaScript : MonoBehaviour
 {
-    [SerializeField] float Acceleration;
+    [SerializeField] float AttackVelocity;
+    [SerializeField] float SwimVelocity;
     [SerializeField] float TurnSpeed;
-    [SerializeField] float MaxSpeed;
-    [SerializeField] float Knockback;
     [SerializeField] float AttackDelay;
     [SerializeField] float FacingMargin;
-
-    [SerializeField] int Health;
 
     float DETECTION_RANGE = 100;
 
@@ -20,13 +17,11 @@ public class PiranhaScript : MonoBehaviour
     Rigidbody rb;
     Vector3 lastPlayerDirection = Vector3.zero;
     bool canAttack = true;
-    Material debugMaterial;
 
     void Awake() {
         player = GameObject.Find("Player");
         wallMask = LayerMask.GetMask("Wall");
         rb = GetComponent<Rigidbody>();
-        debugMaterial = GetComponent<MeshRenderer>().material;
     }
 
     void FixedUpdate()
@@ -36,41 +31,24 @@ public class PiranhaScript : MonoBehaviour
         if (playerHeading.sqrMagnitude <= DETECTION_RANGE * DETECTION_RANGE) {
             float playerDistance = playerHeading.magnitude;
             Vector3 playerDirection = playerHeading / playerDistance;
-            if (!Physics.Raycast(transform.position, playerDirection, playerDistance, wallMask)) {
-                debugMaterial.color = Color.green;
 
-                Vector3 facingDifference = playerDirection - transform.rotation.eulerAngles;
-                // bool isFacingPlayer = facingDifference.sqrMagnitude < FacingMargin * FacingMargin;
+            if (!Physics.Raycast(transform.position, playerDirection, playerDistance, wallMask)) {
+                Vector3 facingDifference = (playerDirection - transform.rotation.eulerAngles).normalized;
                 float angleDiff = Vector3.Angle(transform.forward, playerHeading);
                 bool isFacingPlayer = angleDiff < FacingMargin;
-                //Debug.Log("Is facing player: "+isFacingPlayer+" - "+ angleDiff);
-                Vector3 cross = Vector3.Cross(transform.forward, playerHeading);
-                rb.AddRelativeTorque(cross * angleDiff * TurnSpeed, ForceMode.Acceleration);
-                if (isFacingPlayer) {
-                    rb.AddRelativeForce(Vector3.forward * Acceleration, ForceMode.VelocityChange);
-                    rb.velocity = Vector3.ClampMagnitude(rb.velocity, MaxSpeed);
-                } else if (canAttack) {
-                    // float angleDiff = Vector3.Angle(transform.forward, playerHeading);
-                    // Vector3 cross = Vector3.Cross(transform.forward, playerHeading);
-                    // rb.AddRelativeTorque(cross * angleDiff * TurnSpeed, ForceMode.Acceleration);
+
+                if (isFacingPlayer && canAttack) {
+                    rb.velocity = transform.forward * AttackVelocity;
+                } else {
+                    Quaternion targetRotation = Quaternion.LookRotation(playerHeading);
+                    float strength = Mathf.Min(TurnSpeed * Time.fixedDeltaTime, 1);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, strength);
+
+                    if (canAttack) {
+                        rb.velocity = transform.forward * SwimVelocity;
+                    }
                 }
-                // bool changedDirection = lastPlayerDirection == Vector3.zero || playerDirection != lastPlayerDirection;
-                // Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
-                // if (changedDirection) {
-                //     transform.localRotation = Quaternion.Lerp(transform.rotation, targetRotation, TurnSpeed);
-                //     // transform.localRotation = Quaternion.LookRotation(playerDirection);
-                //     lastPlayerDirection = playerDirection;
-                //     if (canAttack) {
-                //         rb.AddRelativeForce(Vector3.forward * Acceleration, ForceMode.VelocityChange);
-                //         rb.velocity = Vector3.ClampMagnitude(rb.velocity, MaxSpeed);
-                //         Debug.Log("Piranha velocity: "+rb.velocity);
-                //         canAttack = false;
-                //         Invoke("ResetAttack", AttackDelay);
-                //     }
-                // }
             }
-        } else {
-            debugMaterial.color = Color.white;
         }
     }
 
@@ -78,9 +56,9 @@ public class PiranhaScript : MonoBehaviour
         if(collision.gameObject.CompareTag("Player")) {
             // Damage player
 
-            rb.AddRelativeForce(Vector3.back * Knockback, ForceMode.VelocityChange);
-            // canAttack = false;
-            // Invoke("ResetAttack", AttackDelay);
+            rb.velocity = Vector3.back * SwimVelocity;
+            canAttack = false;
+            Invoke("ResetAttack", AttackDelay);
         }
     }
 

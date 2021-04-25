@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571336, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -711,20 +711,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4937bb7766fb046448add50db735624f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  torpedoPrefab: {fileID: 3322053028938406802, guid: c6d970ec476942c43bfb73339c7b5d77, type: 3}
+  laserPrefab: {fileID: 3322053028938406802, guid: 176e2522fad8b4946be5beeb7e16c1fb, type: 3}
   moveSpeed: 0.5
   turnSpeed: 1.5
   rollSpeed: 0.3
   invertY: 0
-  laserPrefab: {fileID: 3322053028938406802, guid: 176e2522fad8b4946be5beeb7e16c1fb, type: 3}
+  LaserTravelSpeed: 100
   laserBaseFireRate: 0.05
   laserOverheatedFireRate: 0.15
   laserBaseSpreadRadius: 0.01
   laserOverheatedSpreadRadius: 0.08
   laserOverheatThreshold: 2.5
   laserCooldownTime: 2.5
-  torpedoPrefab: {fileID: 3322053028938406802, guid: c6d970ec476942c43bfb73339c7b5d77, type: 3}
   torpedoFireRate: 1
   torpedoLimit: 5
+  shipboard: {fileID: 0}
+  harpoonDrag: 0
+  harpoonReelDelay: 0
+  harpoon: {fileID: 0}
+  harpoonRopeMaxLength: 0
   laserTextObject: {fileID: 0}
   laserHeatTextObject: {fileID: 0}
   torpedoTextObject: {fileID: 0}
@@ -744,14 +750,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1444085761}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalRotation: {x: -0, y: -0.14644125, z: -0, w: 0.98921937}
+  m_LocalPosition: {x: 0, y: -0.23, z: 23.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 892462833}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -16.842, z: 0}
 --- !u!1 &1675949368
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,7 +1028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 730257030585413845, guid: 5efdeec49d3064613b85f797dfa428bd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5efdeec49d3064613b85f797dfa428bd, type: 3}
@@ -1033,6 +1039,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1675949369}
     m_Modifications:
+    - target: {fileID: 5833048960511419667, guid: cf81338ad5dc64221adfbbf787de3f5a, type: 3}
+      propertyPath: Acceleration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5833048960511419667, guid: cf81338ad5dc64221adfbbf787de3f5a, type: 3}
+      propertyPath: TurnSlowDown
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5833048960511419692, guid: cf81338ad5dc64221adfbbf787de3f5a, type: 3}
       propertyPath: m_RootOrder
       value: 0
