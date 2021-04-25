@@ -15,6 +15,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float rollSpeed = 1.0f;
     [SerializeField] bool invertY = false;
 
+    //[SerializeField] float laserDamage = 1.0f;
+    //[SerializeField] float torpedoDamage = 10.0f;
+    //[SerializeField] float harpoonDamage = 3.0f;
+
     [SerializeField] float LaserTravelSpeed = 100f;
 
     [SerializeField] float laserBaseFireRate = 1.0f;
@@ -119,7 +123,6 @@ public class PlayerMovement : MonoBehaviour
             laserHeat += Time.fixedDeltaTime;
         } else
         {
-            //if (Input.GetKey(KeyCode.Space) && !laserIsOverheated)
             if (Input.GetMouseButton(0) && !laserIsOverheated)
             {
                 FireLaser();
@@ -157,12 +160,23 @@ public class PlayerMovement : MonoBehaviour
         {
             if(!harpoonAttached)
             {
-                harpoonRopeLength -= 2.0f * Time.fixedDeltaTime;
+                if (harpoonScript.EnemyStuck())
+                {
+                    harpoonRopeLength -= 2.0f * Time.fixedDeltaTime;
+                } else
+                {
+                    harpoonRopeLength -= 6.0f * Time.fixedDeltaTime;
+                }
 
                 float harpoonDistance = (harpoonAttachmentPoint - gameObject.transform.InverseTransformPoint(harpoon.transform.position)).magnitude;
                 if (harpoonRopeLength > harpoonDistance)
                 {
                     harpoonRopeLength = harpoonDistance;
+                }
+
+                if (harpoonRopeLength < 2.5f)
+                {
+                    harpoonScript.DetachHarpoon();
                 }
 
                 if(harpoonScript.stuckInTerrain)
@@ -193,10 +207,6 @@ public class PlayerMovement : MonoBehaviour
             if (harpoonAttached)
             {
                 FireHarpoon();
-            }
-            else
-            {
-                ReloadHarpoon();
             }
         }
     }
@@ -329,7 +339,7 @@ public class PlayerMovement : MonoBehaviour
         Destroy(harpoonJoint);
         harpoonAttached = false;
         harpoonBody.velocity = new Vector3(0, 0, 0);
-        harpoonBody.AddForce(harpoon.transform.forward.normalized * 1000f);
+        harpoonBody.AddForce(harpoon.transform.forward.normalized * 10000f);
         harpoonBody.drag = harpoonDrag;
         harpoonBody.angularDrag = harpoonDrag;
         harpoonScript.FireHarpoon();
