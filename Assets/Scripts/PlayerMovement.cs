@@ -59,12 +59,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float harpoonRopeMaxLength;
     float harpoonRopeLength;
 
+    [SerializeField] float harpoonReelSpeed;
+    [SerializeField] float harpoonStuckReelSpeed;
+
     Rigidbody harpoonBody;
     FixedJoint harpoonJoint;
     Vector3 harpoonAttachmentPoint;
     Quaternion harpoonAttachmentRotation;
     bool harpoonAttached;
     ConfigurableJoint harpoonRopeJoint;
+
+    LineRenderer harpoonRopeRenderer;
 
     HarpoonScript harpoonScript;
 
@@ -105,6 +110,8 @@ public class PlayerMovement : MonoBehaviour
         harpoonScript = harpoon.GetComponent<HarpoonScript>();
 
         harpoonRopeLength = harpoonRopeMaxLength;
+
+        harpoonRopeRenderer = gameObject.GetComponent<LineRenderer>();
 
         ReloadHarpoon();
     }
@@ -170,10 +177,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (harpoonScript.EnemyStuck())
                 {
-                    harpoonRopeLength -= 2.0f * Time.fixedDeltaTime;
+                    harpoonRopeLength -= harpoonStuckReelSpeed * Time.fixedDeltaTime;
                 } else
                 {
-                    harpoonRopeLength -= 6.0f * Time.fixedDeltaTime;
+                    harpoonRopeLength -= harpoonReelSpeed * Time.fixedDeltaTime;
                 }
 
                 float harpoonDistance = (harpoonAttachmentPoint - gameObject.transform.InverseTransformPoint(harpoon.transform.position)).magnitude;
@@ -192,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
                     harpoonScript.DetachHarpoon();
                 }
 
-                if (harpoonRopeLength <= 0)
+                if (harpoonRopeLength <= 1.0f)
                 {
                     ReloadHarpoon();
                 } else {
@@ -217,6 +224,8 @@ public class PlayerMovement : MonoBehaviour
                 FireHarpoon();
             }
         }
+
+        harpoonRopeRenderer.SetPositions(new Vector3[] { gameObject.transform.TransformPoint(harpoonAttachmentPoint), harpoon.transform.position });
     }
 
     Vector3 GetDirection()

@@ -6,6 +6,7 @@ public class EnemyHealthScript : MonoBehaviour
 {
     [SerializeField] int Health;
     [SerializeField] GameObject deathPrefab;
+    [SerializeField] GameObject enemyRootObject;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,7 @@ public class EnemyHealthScript : MonoBehaviour
         if (Health < -0)
         {
             Instantiate(deathPrefab, this.transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            Destroy(enemyRootObject);
         }
     }
 }

@@ -9,7 +9,7 @@ public class TorpedoScript : MonoBehaviour
 
     float armingTime = 0.25f;
     float lifetime;
-    int damage = 20;
+    [SerializeField] int damage = 10;
 
     // Start is called before the first frame update
     void Start()
