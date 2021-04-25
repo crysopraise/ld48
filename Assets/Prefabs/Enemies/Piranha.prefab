@@ -43,8 +43,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.4204274, b: 0, a: 1}
-  m_Intensity: 1
-  m_Range: 25
+  m_Intensity: 0.5
+  m_Range: 100
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 5
-  deathPrefab: {fileID: 5182876470748940741, guid: 80e0c1fbed8b07443a7095eb04e2b19c, type: 3}
+  deathPrefab: {fileID: 5182876470748940741, guid: 13e81ea09345fd342ad5f4121a1af74f, type: 3}
 --- !u!1001 &8098538912250273924
 PrefabInstance:
   m_ObjectHideFlags: 0
