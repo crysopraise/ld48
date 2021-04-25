@@ -1969,6 +1969,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1086507427555860116, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1283517112417026580, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2017,5 +2021,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClamPrefab
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5347559582867264231, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736647092632393292, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736647092632393292, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5347559582867264231, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
+    - {fileID: 7039099663231241448, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
+    - {fileID: 7277606860756183043, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c86b6fd052248c54a82c09e08c42ebf6, type: 3}
