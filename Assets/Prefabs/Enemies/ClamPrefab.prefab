@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1283517112417026580}
-  - component: {fileID: 1283517112417026581}
   m_Layer: 0
   m_Name: ClamPrefab
   m_TagString: Untagged
@@ -25,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1283517112417026583}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10.64, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1604760852317895096}
@@ -34,19 +33,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1283517112417026581
-SphereCollider:
+--- !u!114 &7039099663231241448
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1283517112417026583}
+  m_GameObject: {fileID: 4531983361445855093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc6d87476ec272240a825b57952f282c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &5347559582867264231
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531983361445855093}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5.46
-  m_Center: {x: 1.85, y: 0, z: 0}
+  m_Size: {x: 0.08, y: 0.03, z: 0.05}
+  m_Center: {x: 0, y: 0.02, z: 0}
+--- !u!114 &2256671684425254959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736647092632393292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc6d87476ec272240a825b57952f282c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &6618005676659205121
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736647092632393292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.08, y: 0.03, z: 0.05}
+  m_Center: {x: 0, y: 0.02, z: 0}
 --- !u!1001 &1283517110732287409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98,6 +134,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5824510187379060028, guid: b105ebed122a93d44ba2b970348548e4, type: 3}
+      propertyPath: m_Name
+      value: LeftShellModel
+      objectReference: {fileID: 0}
+    - target: {fileID: -5824510187379060028, guid: b105ebed122a93d44ba2b970348548e4, type: 3}
+      propertyPath: m_TagString
+      value: EnemyArmor
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b105ebed122a93d44ba2b970348548e4, type: 3}
       propertyPath: m_Name
       value: clam3
@@ -111,6 +155,11 @@ PrefabInstance:
 --- !u!4 &1604760853644053082 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b105ebed122a93d44ba2b970348548e4, type: 3}
+  m_PrefabInstance: {fileID: 1283517110732287409}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4531983361445855093 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5824510187379060028, guid: b105ebed122a93d44ba2b970348548e4, type: 3}
   m_PrefabInstance: {fileID: 1283517110732287409}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1283517110795381220
@@ -226,6 +275,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -391268320553695201, guid: 80b50ff8dfdf8aa40a71105c618d35f7, type: 3}
+      propertyPath: m_Name
+      value: RightShellModel
+      objectReference: {fileID: 0}
+    - target: {fileID: -391268320553695201, guid: 80b50ff8dfdf8aa40a71105c618d35f7, type: 3}
+      propertyPath: m_TagString
+      value: EnemyArmor
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 80b50ff8dfdf8aa40a71105c618d35f7, type: 3}
       propertyPath: m_Name
       value: clam1
@@ -235,5 +292,10 @@ PrefabInstance:
 --- !u!4 &1604760852317895096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 80b50ff8dfdf8aa40a71105c618d35f7, type: 3}
+  m_PrefabInstance: {fileID: 1283517112092008019}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7736647092632393292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -391268320553695201, guid: 80b50ff8dfdf8aa40a71105c618d35f7, type: 3}
   m_PrefabInstance: {fileID: 1283517112092008019}
   m_PrefabAsset: {fileID: 0}

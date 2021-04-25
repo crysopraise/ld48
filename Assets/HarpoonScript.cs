@@ -28,23 +28,28 @@ public class HarpoonScript : MonoBehaviour
     {
         if (other.tag != "Player" && harpoonFlying)
         {
-            Debug.Log("Harpoon hit!");
             harpoonFlying = false;
+
+            if (other.gameObject.tag == "EnemyArmor")
+            {
+                ClamShellScript s = other.gameObject.GetComponent<ClamShellScript>();
+                s.OnHarpoonHit();
+            }
+            if (other.gameObject.tag == "Enemy")
+            {
+                EnemyHealthScript s = other.gameObject.GetComponent<EnemyHealthScript>();
+                s.Damage(damage);
+            }
 
             gameObject.AddComponent<FixedJoint>();
             strikeJoint = gameObject.GetComponent<FixedJoint>();
             if (other.attachedRigidbody)
             {
                 strikeJoint.connectedBody = other.attachedRigidbody;
-            } else
+            }
+            else
             {
                 stuckInTerrain = true;
-            }
-
-            if (other.gameObject.tag == "Enemy")
-            {
-                EnemyHealthScript s = other.gameObject.GetComponent<EnemyHealthScript>();
-                s.Damage(damage);
             }
         }
     }
