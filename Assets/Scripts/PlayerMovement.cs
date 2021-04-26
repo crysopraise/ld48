@@ -573,8 +573,22 @@ public class PlayerMovement : MonoBehaviour
         SceneManager.LoadScene("GameOver");
     }
 
-    public void RegenHealth()
+    public int GetHealth()
     {
-        health += healthRegenRate;
+        return health;
+    }
+
+    public void RestoreHealth(int h)
+    {
+        health += h;
+        if(health > 100)
+        {
+            health = 100;
+        }
+    }
+
+    public void AddTorpedos(int t)
+    {
+        torpedoCount += t;
     }
 }
