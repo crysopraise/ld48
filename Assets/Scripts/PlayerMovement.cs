@@ -260,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
                 //harpoonBody.AddForce((gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonReelSpeed * 10.0f * Time.fixedDeltaTime);
             }
 
-            harpoonRopeLength -= harpoonReelSpeed * Time.fixedDeltaTime;
+            //harpoonRopeLength -= harpoonReelSpeed * Time.fixedDeltaTime;
 
             float harpoonDistance = (harpoonAttachmentPoint - gameObject.transform.InverseTransformPoint(harpoon.transform.position)).magnitude;
             if (harpoonRopeLength > harpoonDistance)
@@ -542,7 +542,6 @@ public class PlayerMovement : MonoBehaviour
     public void Damage(int d)
     {
         health -= d;
-        Debug.Log("Took " + d + " damage");
         if(health <= 0)
         {
             if(!dying) PlayerDie();
