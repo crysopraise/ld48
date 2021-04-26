@@ -36,28 +36,10 @@ public class ClamScript : MonoBehaviour
         animations.Add(transform.Find("clam1").gameObject.GetComponent<Animation>());
         animations.Add(transform.Find("clam2").gameObject.GetComponent<Animation>());
         animations.Add(transform.Find("clam3").gameObject.GetComponent<Animation>());
-        for (int i = 0; i < 3; i++) {
-            // string animationName = "Armature" + (i == 0 ? "" : ".00" + i) + "|ArmatureAction";
-            // Debug.Log(animationName);
-            // animations[0].Blend(animationName, chargeTime+laserDuration);
-            animations[0].wrapMode = WrapMode.Once;
         }
     }
 
     void FixedUpdate() {
-
-        // check if in range
-        // if AttackingPlayer state
-            // set turn speed to regular
-            // set can strafe to true
-            // if attack is off cooldown, start charging
-        // if ChargingLaser state
-            // set turn speed to charging (slower)
-        // if shooting laser
-            // set turn speed to shooting (slowest)
-            // cast sphere for laser collision
-            // if spherecast collides with player
-                // damage player
         Vector3 playerHeading = player.transform.position - transform.position;
         float turnSpeed = regularTurnSpeed;
 
@@ -73,7 +55,7 @@ public class ClamScript : MonoBehaviour
             turnSpeed = shootingTurnSpeed;
             RaycastHit hit;
             Physics.SphereCast(transform.position, laserRadius, transform.forward, out hit, laserRange);
-            if (hit.collider.gameObject.CompareTag("Player")) {
+            if (hit.collider != null && hit.collider.gameObject.CompareTag("Player")) {
                 Debug.Log("player hit! eat it bitch!!");
                 // Damage player
             }
@@ -86,11 +68,9 @@ public class ClamScript : MonoBehaviour
     }
 
     void TurnTowardPlayer(Vector3 playerHeading, float turnSpeed) {
-        // Debug.Log("player heading: "+playerHeading);
-        // Debug.Log("turning toward player: "+transform.rotation);
-        Quaternion targetRotation = Quaternion.LookRotation(playerHeading);
+        Quaternion targetRotation = Quaternion.LookRotation(playerHeading) * Quaternion.Euler(new Vector3(0, 90, 0));
         float strength = Mathf.Min(turnSpeed * Time.fixedDeltaTime, 1);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, strength);
+        rb.rotation = Quaternion.Lerp(rb.transform.rotation, targetRotation, strength);
     }
 
     void ChargeLaser() {
@@ -141,9 +121,7 @@ public class ClamScript : MonoBehaviour
         debugLaser.transform.position = transform.position;
         float scale = 2;
         debugLaser.transform.localScale = new Vector3(scale, laserRange / 2, scale);
-        Vector3 rotation = transform.rotation.eulerAngles;
-        rotation.x += 90;
-        debugLaser.transform.rotation = Quaternion.Euler(rotation);
+        debugLaser.transform.rotation = rb.rotation * Quaternion.Euler(new Vector3(90, -90, 0));
         debugLaser.transform.Translate(new Vector3(0, laserRange / 2, 0));
     }
 }
