@@ -8,6 +8,8 @@ TagManager:
   - EnemyHarpoonable
   - ClamArmor
   - BarnacleArmor
+  - EnemyArmor
+  - PuzzleBlock
   layers:
   - Default
   - TransparentFX

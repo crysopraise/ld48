@@ -38,6 +38,7 @@ public class HarpoonScript : MonoBehaviour
         if (other.tag != "Player" && harpoonFlying)
         {
             harpoonFlying = false;
+            this.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
 
             if (other.gameObject.tag == "ClamArmor")
             {
