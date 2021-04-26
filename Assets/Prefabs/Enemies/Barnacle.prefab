@@ -143,6 +143,7 @@ MonoBehaviour:
   firePoint: {fileID: 730257029392745070}
   attackSoundSource: {fileID: 5476619245357073798}
   ambientSoundSource: {fileID: 2006186128211836123}
+  localrb: {fileID: 6679847284760822701}
 --- !u!54 &6679847284760822701
 Rigidbody:
   m_ObjectHideFlags: 0

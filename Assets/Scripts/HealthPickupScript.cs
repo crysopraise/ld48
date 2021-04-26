@@ -24,7 +24,7 @@ public class HealthPickupScript : MonoBehaviour
             {
                 if (p.GetHealth() < 100)
                 {
-                    p.RestoreHealth(10);
+                    p.RestoreHealth(20);
                     Destroy(gameObject);
                 }
             }
