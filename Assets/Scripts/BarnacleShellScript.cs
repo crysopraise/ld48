@@ -38,6 +38,7 @@ public class BarnacleShellScript : MonoBehaviour
                 attachedHarpoon.GetComponent<HarpoonScript>().DetachHarpoon();
                 attachedHarpoon = null;
             }
+            BarnacleParent.GetComponent<BarnacleScript>().Detach();
         }
     }
 

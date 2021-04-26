@@ -17,14 +17,17 @@ public class BarnacleScript : MonoBehaviour
     GameObject player;
     LayerMask wallMask;
     [SerializeField] GameObject firePoint;
-    bool canAttack = true;
+    bool attackReady = true;
     Material debugMaterial;
+
+    bool detachedFromWall;
 
     void Awake() {
         player = GameObject.Find("Player");
         wallMask = LayerMask.GetMask("Wall");
         debugMaterial = GetComponent<MeshRenderer>().material;
         Physics.IgnoreCollision(Terrain.GetComponent<Collider>(), GetComponent<Collider>());    // Note: Don't disable collisions between the shell and the terrain!
+        detachedFromWall = false;
     }
 
     void FixedUpdate()
@@ -34,14 +37,14 @@ public class BarnacleScript : MonoBehaviour
         if (playerHeading.sqrMagnitude <= DETECTION_RANGE * DETECTION_RANGE) {
             float playerDistance = playerHeading.magnitude;
             Vector3 playerDirection = playerHeading / playerDistance;
-            if (!Physics.Raycast(firePoint.transform.position, playerDirection, playerDistance, wallMask) && canAttack) {
+            if (!Physics.Raycast(firePoint.transform.position, playerDirection, playerDistance, wallMask) && attackReady && !detachedFromWall) {
                 debugMaterial.color = Color.green;
 
                 GameObject orb = Instantiate(orbPrefab, firePoint.transform.position, Quaternion.LookRotation(playerDirection));
                 Physics.IgnoreCollision(orb.GetComponent<Collider>(), GetComponent<Collider>());
                 Physics.IgnoreCollision(orb.GetComponent<Collider>(), Shell.GetComponent<Collider>());
                 orb.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * BulletSpeed, ForceMode.VelocityChange);
-                canAttack = false;
+                attackReady = false;
                 Invoke("ResetAttack", AttackDelay);
             }
         } else {
@@ -50,6 +53,11 @@ public class BarnacleScript : MonoBehaviour
     }
 
     void ResetAttack() {
-        canAttack = true;
+        attackReady = true;
+    }
+
+    public void Detach()
+    {
+        detachedFromWall = true;
     }
 }
