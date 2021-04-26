@@ -265,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
             harpoonRopeLength -= harpoonReelSpeed * Time.fixedDeltaTime;
 
             float harpoonDistance = (harpoonAttachmentPoint - gameObject.transform.InverseTransformPoint(harpoon.transform.position)).magnitude;
-            if (harpoonRopeLength > harpoonDistance)
+            if (harpoonRopeLength > harpoonDistance + 0.1f)
             {
                 harpoonRopeLength = harpoonDistance;
             }

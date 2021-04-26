@@ -54,6 +54,7 @@ public class BarnacleShellScript : MonoBehaviour
     {
         if (other.name == "Harpoon")
         {
+            UnstickFromTerrain();
             HarpoonConnected = false;
             if (attachedHarpoon)
             {
