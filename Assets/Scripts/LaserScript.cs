@@ -26,21 +26,29 @@ public class LaserScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        bool destroyThis = false;
         if(Random.Range(0, 5) != 0)
         {
-            Instantiate(impactPrefab, this.transform.position, Quaternion.identity);
-            Destroy(this.gameObject);
+            destroyThis = true;
         }
 
         if(collision.gameObject.tag == "Enemy")
         {
             EnemyHealthScript s = collision.gameObject.GetComponent<EnemyHealthScript>();
             s.Damage(damage);
+            destroyThis = true;
         }
         if(collision.gameObject.tag == "EnemyHarpoonable")
         {
             EnemyHealthScript s = collision.gameObject.GetComponent<EnemyHealthScript>();
             s.Damage(damage);
+            destroyThis = true;
+        }
+
+        if(destroyThis)
+        {
+            Instantiate(impactPrefab, this.transform.position, Quaternion.identity);
+            Destroy(this.gameObject);
         }
     }
 

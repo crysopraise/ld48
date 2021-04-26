@@ -135,7 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orbPrefab: {fileID: 8335690030957241995, guid: b769dc1bfa24d4542bfec2805c022eb3, type: 3}
   BulletSpeed: 30
-  AttackDelay: 4
+  AttackCooldownMin: 2
+  AttackCooldownMax: 10
   AttackRange: 50
   Shell: {fileID: 5653136968706624999}
   Terrain: {fileID: 0}

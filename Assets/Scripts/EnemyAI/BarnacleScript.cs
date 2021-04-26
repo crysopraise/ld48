@@ -7,7 +7,8 @@ public class BarnacleScript : MonoBehaviour
     // NOTE: For the barnacle to work, remember to set the Terrain variable in the editor so that its squishy body won't collide with the terrain!
     [SerializeField] GameObject orbPrefab;
     [SerializeField] float BulletSpeed;
-    [SerializeField] float AttackDelay;
+    [SerializeField] float AttackCooldownMin;
+    [SerializeField] float AttackCooldownMax;
     [SerializeField] float AttackRange;
 
     [SerializeField] GameObject Shell;
@@ -35,7 +36,7 @@ public class BarnacleScript : MonoBehaviour
         Physics.IgnoreCollision(Terrain.GetComponent<Collider>(), GetComponent<Collider>());    // Note: Don't disable collisions between the shell and the terrain!
         detachedFromWall = false;
 
-        ambientSoundTimer = Random.Range(5f, 10f);
+        ambientSoundTimer = Random.Range(4f, 12f);
     }
 
     void FixedUpdate()
@@ -54,7 +55,7 @@ public class BarnacleScript : MonoBehaviour
                 Physics.IgnoreCollision(orb.GetComponent<Collider>(), Shell.GetComponent<Collider>());
                 orb.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * BulletSpeed, ForceMode.VelocityChange);
                 attackReady = false;
-                Invoke("ResetAttack", AttackDelay);
+                Invoke("ResetAttack", Random.Range(AttackCooldownMin, AttackCooldownMax));
             }
         } else {
             debugMaterial.color = Color.white;
@@ -67,7 +68,7 @@ public class BarnacleScript : MonoBehaviour
             if (playerHeading.sqrMagnitude <= DETECTION_RANGE * DETECTION_RANGE * 2)
             {
                 ambientSoundSource.Play();
-                ambientSoundTimer = Random.Range(5f, 10f);
+                ambientSoundTimer = Random.Range(4f, 12f);
             }
         }
     }
