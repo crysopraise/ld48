@@ -62,8 +62,12 @@ public class BarnacleScript : MonoBehaviour
         ambientSoundTimer -= Time.fixedDeltaTime;
         if(ambientSoundTimer <= 0)
         {
-            ambientSoundSource.Play();
-            ambientSoundTimer = Random.Range(5f, 10f);
+            // Ambient sound range is double detection range
+            if (playerHeading.sqrMagnitude <= DETECTION_RANGE * DETECTION_RANGE * 2)
+            {
+                ambientSoundSource.Play();
+                ambientSoundTimer = Random.Range(5f, 10f);
+            }
         }
     }
 

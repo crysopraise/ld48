@@ -11,6 +11,8 @@ public class PiranhaScript : MonoBehaviour
     [SerializeField] float AttackDelay;
     [SerializeField] float FacingMargin;
     [SerializeField] int AttackDamage;
+    //[SerializeField] AudioSource attackSoundSource;
+    [SerializeField] AudioSource ambientSoundSource;
 
     float DETECTION_RANGE = 100;
 
@@ -19,11 +21,14 @@ public class PiranhaScript : MonoBehaviour
     Rigidbody rb;
     Vector3 lastPlayerDirection = Vector3.zero;
     bool canAttack = true;
+    float ambientSoundTimer;
 
     void Awake() {
         player = GameObject.Find("Player");
         wallMask = LayerMask.GetMask("Wall");
         rb = GetComponent<Rigidbody>();
+
+        ambientSoundTimer = Random.Range(5f, 10f);
     }
 
     void FixedUpdate()
@@ -52,6 +57,17 @@ public class PiranhaScript : MonoBehaviour
                 }
             }
         }
+
+        ambientSoundTimer -= Time.fixedDeltaTime;
+        if(ambientSoundTimer <= 0)
+        {
+            // Ambient sound range is double detection range
+            if (playerHeading.sqrMagnitude <= DETECTION_RANGE * DETECTION_RANGE)
+            {
+                ambientSoundSource.Play();
+                ambientSoundTimer = Random.Range(5f, 10f);
+            }
+        }
     }
 
     void OnCollisionEnter(Collision collision) {
@@ -59,7 +75,10 @@ public class PiranhaScript : MonoBehaviour
             // Damage player
 
             rb.AddRelativeForce(Vector3.back * KnockBackVelocity, ForceMode.VelocityChange);
-            collision.gameObject.GetComponent<PlayerMovement>().Damage(AttackDamage);
+            if (collision.gameObject.tag == "player")
+            {
+                collision.gameObject.GetComponent<PlayerMovement>().Damage(AttackDamage);
+            }
             canAttack = false;
             Invoke("ResetAttack", AttackDelay);
         }
