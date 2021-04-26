@@ -96,11 +96,15 @@ public class HarpoonScript : MonoBehaviour
         {
             if(strikeJoint.connectedBody)
             {
-
-                if (strikeJoint.connectedBody.tag == "BarnacleArmor")
+                if (strikeJoint.connectedBody.CompareTag("BarnacleArmor"))
                 {
                     BarnacleShellScript b = strikeJoint.connectedBody.GetComponent<BarnacleShellScript>();
                     b.UnstickFromTerrain();
+                }
+
+                if (strikeJoint.connectedBody.CompareTag("ClamArmor") || strikeJoint.connectedBody.CompareTag("Enemy"))
+                {
+                    DetachHarpoon();
                 }
             }
         }
