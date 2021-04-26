@@ -422,15 +422,15 @@ public class PlayerMovement : MonoBehaviour
 
         if(harpoonAttached)
         {
-            harpoonText.text = "Harpoon Ready";
+            harpoonText.text = "Hrpn Ready";
             harpoonText.color = Color.gray;
         } else if(harpoonReeling)
         {
-            harpoonText.text = "Harpoon Reeling In";
+            harpoonText.text = "Hrpn Reeling";
             harpoonText.color = Color.yellow;
         } else 
         {
-            harpoonText.text = "Harpoon Fired";
+            harpoonText.text = "Hrpn Fired";
             harpoonText.color = Color.red;
         }
         
