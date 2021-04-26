@@ -324,10 +324,13 @@ public class PlayerMovement : MonoBehaviour
         float yaw = Input.GetAxis("Mouse X");
         float pitch = Input.GetAxis("Mouse Y") * (invertY ? 1 : -1);
         float roll = 0;
-        if (!lockControls)
+        if (Input.GetKey(KeyCode.Q)) roll += 1;
+        if (Input.GetKey(KeyCode.E)) roll -= 1;
+        if (lockControls)
         {
-            if (Input.GetKey(KeyCode.Q)) roll += 1;
-            if (Input.GetKey(KeyCode.E)) roll -= 1;
+            yaw = 0;
+            pitch = 0;
+            roll = 0;
         }
         return new Vector3(pitch * turnSpeed, yaw * turnSpeed, roll * rollSpeed);
     }
