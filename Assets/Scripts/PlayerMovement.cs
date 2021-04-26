@@ -253,13 +253,13 @@ public class PlayerMovement : MonoBehaviour
         {
             if (harpoonScript.EnemyStuck())
             {
-                harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonStuckReelSpeed;
-                //harpoonBody.AddForce((gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonStuckReelSpeed * 10.0f * Time.fixedDeltaTime);
+                //harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonStuckReelSpeed;
+                harpoonBody.AddForce((gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonStuckReelSpeed * 10.0f * Time.fixedDeltaTime);
             }
             else
             {
-                harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonReelSpeed;
-                //harpoonBody.AddForce((gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonReelSpeed * 10.0f * Time.fixedDeltaTime);
+                //harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonReelSpeed;
+                harpoonBody.AddForce((gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonReelSpeed * 10.0f * Time.fixedDeltaTime);
             }
 
             harpoonRopeLength -= harpoonReelSpeed * Time.fixedDeltaTime;
