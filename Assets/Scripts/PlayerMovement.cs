@@ -103,6 +103,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject harpoonTextObject;
     Text harpoonText;
 
+    [SerializeField] GameObject instructionsTextCanvas;
+
     [SerializeField] AudioSource damageAudioSource;
     [SerializeField] AudioSource deathAudioSource;
     [SerializeField] AudioSource harpoonLaunchAudioSource;
@@ -593,5 +595,10 @@ public class PlayerMovement : MonoBehaviour
     {
         torpedoPickupAudioSource.Play();
         torpedoCount += t;
+    }
+
+    public void ShowBarnacleInfoText()
+    {
+        instructionsTextCanvas.GetComponent<InstructionsHideScript>().ShowBarnacleInfo();
     }
 }
