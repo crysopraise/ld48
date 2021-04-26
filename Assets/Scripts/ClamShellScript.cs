@@ -32,7 +32,6 @@ public class ClamShellScript : MonoBehaviour
     public void OnHarpoonHit()
     {
         gameObject.transform.GetComponent<Animation>().Stop();
-        //gameObject.transform.SetParent(null);
         Destroy(gameObject.GetComponent<FixedJoint>());
         toDestroy = true;
     }

@@ -8,6 +8,13 @@ public class HarpoonScript : MonoBehaviour
     public bool stuckInTerrain;
     public bool harpoonFlying;
 
+    [SerializeField] AudioClip rockImpactClip;
+    [SerializeField] AudioClip fleshImpactClip;
+    [SerializeField] AudioClip chitinImpactClip;
+    [SerializeField] AudioClip genericImpactClip;
+
+    AudioSource audioSource;
+
     int damage = 3;
 
     // Start is called before the first frame update
@@ -16,6 +23,8 @@ public class HarpoonScript : MonoBehaviour
         strikeJoint = null;
         stuckInTerrain = false;
         harpoonFlying = false;
+
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -34,11 +43,15 @@ public class HarpoonScript : MonoBehaviour
             {
                 ClamShellScript s = other.gameObject.GetComponent<ClamShellScript>();
                 s.OnHarpoonHit();
+                audioSource.clip = chitinImpactClip;
+                audioSource.Play();
             }
             if (other.gameObject.tag == "Enemy")
             {
                 EnemyHealthScript s = other.gameObject.GetComponent<EnemyHealthScript>();
                 s.Damage(damage);
+                audioSource.clip = fleshImpactClip;
+                audioSource.Play();
             }
 
             gameObject.AddComponent<FixedJoint>();
@@ -49,6 +62,8 @@ public class HarpoonScript : MonoBehaviour
             }
             else
             {
+                audioSource.clip = rockImpactClip;
+                audioSource.Play();
                 stuckInTerrain = true;
             }
         }

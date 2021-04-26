@@ -87,8 +87,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject torpedoCountTextObject;
     Text torpedoCountText;
 
-    AudioSource audioSource;
+    AudioSource damageAudioSource;
+    AudioSource harpoonReelAudioSource;
     [SerializeField] AudioClip damageSoundClip;
+    [SerializeField] AudioClip harpoonReelClip;
 
     // Start is called before the first frame update
     void Start()
@@ -123,7 +125,11 @@ public class PlayerMovement : MonoBehaviour
 
         harpoonRopeRenderer = gameObject.GetComponent<LineRenderer>();
 
-        audioSource = gameObject.GetComponent<AudioSource>();
+        AudioSource[] audioSources = gameObject.GetComponents<AudioSource>();
+        damageAudioSource = audioSources[0];
+        harpoonReelAudioSource = audioSources[1];
+        harpoonReelAudioSource.clip = harpoonReelClip;
+        harpoonReelAudioSource.loop = true;
 
         ReloadHarpoon();
     }
@@ -183,43 +189,53 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // reel in harpoon
-        if (Input.GetKey(KeyCode.Space) && harpoonReelTimer <= 0)
+        if (Input.GetKey(KeyCode.Space) && harpoonReelTimer <= 0 && !harpoonAttached)
         {
-            if(!harpoonAttached)
+            if (harpoonScript.EnemyStuck())
             {
-                if (harpoonScript.EnemyStuck())
-                {
-                    harpoonRopeLength -= harpoonStuckReelSpeed * Time.fixedDeltaTime;
-                } else
-                {
-                    harpoonRopeLength -= harpoonReelSpeed * Time.fixedDeltaTime;
-                }
-
-                float harpoonDistance = (harpoonAttachmentPoint - gameObject.transform.InverseTransformPoint(harpoon.transform.position)).magnitude;
-                if (harpoonRopeLength > harpoonDistance)
-                {
-                    harpoonRopeLength = harpoonDistance;
-                }
-
-                if (harpoonRopeLength < 2.5f)
-                {
-                    harpoonScript.DetachHarpoon();
-                }
-
-                if(harpoonScript.stuckInTerrain)
-                {
-                    harpoonScript.DetachHarpoon();
-                }
-
-                if (harpoonRopeLength <= 1.0f)
-                {
-                    ReloadHarpoon();
-                } else {
-                    SoftJointLimit newLimit = harpoonRopeJoint.linearLimit;
-                    newLimit.limit = harpoonRopeLength;
-                    harpoonRopeJoint.linearLimit = newLimit;
-                }
+                harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonStuckReelSpeed;
             }
+            else
+            {
+                harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonReelSpeed;
+            }
+
+            harpoonRopeLength -= harpoonReelSpeed * Time.fixedDeltaTime;
+
+            float harpoonDistance = (harpoonAttachmentPoint - gameObject.transform.InverseTransformPoint(harpoon.transform.position)).magnitude;
+            if (harpoonRopeLength > harpoonDistance)
+            {
+                harpoonRopeLength = harpoonDistance;
+            }
+
+            if (harpoonRopeLength < 2.5f)
+            {
+                harpoonScript.DetachHarpoon();
+            }
+
+            if (harpoonScript.stuckInTerrain)
+            {
+                harpoonScript.DetachHarpoon();
+            }
+
+            if (harpoonRopeLength <= 0.3f)
+            {
+                ReloadHarpoon();
+            }
+            else
+            {
+                SoftJointLimit newLimit = harpoonRopeJoint.linearLimit;
+                newLimit.limit = harpoonRopeLength;
+                harpoonRopeJoint.linearLimit = newLimit;
+            }
+
+            if (!harpoonReelAudioSource.isPlaying)
+            {
+                harpoonReelAudioSource.Play();
+            }
+        } else
+        {
+            harpoonReelAudioSource.Pause();
         }
 
         UpdateUIText();
@@ -403,8 +419,8 @@ public class PlayerMovement : MonoBehaviour
     {
         health -= d;
         Debug.Log("Took " + d + " damage");
-        audioSource.clip = damageSoundClip;
-        audioSource.Play();
+        damageAudioSource.clip = damageSoundClip;
+        damageAudioSource.Play();
         if(health <= 0)
         {
             // game over!
