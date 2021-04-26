@@ -9,7 +9,11 @@ TagManager:
   - ClamArmor
   - BarnacleArmor
   - EnemyArmor
+<<<<<<< Updated upstream
   - PuzzleBlock
+=======
+  - Terrain
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX

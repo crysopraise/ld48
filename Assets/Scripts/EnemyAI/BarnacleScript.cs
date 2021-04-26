@@ -30,6 +30,7 @@ public class BarnacleScript : MonoBehaviour
     void Awake() {
         player = GameObject.Find("Player");
         wallMask = LayerMask.GetMask("Wall");
+        Terrain = GameObject.FindWithTag("Terrain");
         debugMaterial = GetComponent<MeshRenderer>().material;
         Physics.IgnoreCollision(Terrain.GetComponent<Collider>(), GetComponent<Collider>());    // Note: Don't disable collisions between the shell and the terrain!
         detachedFromWall = false;
