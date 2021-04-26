@@ -1166,8 +1166,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torpedoPrefab: {fileID: 3322053028938406802, guid: c6d970ec476942c43bfb73339c7b5d77, type: 3}
   laserPrefab: {fileID: 3322053028938406802, guid: 176e2522fad8b4946be5beeb7e16c1fb, type: 3}
-  moveSpeed: 0.5
-  turnSpeed: 1.5
+  moveSpeed: 1
+  turnSpeed: 1
   rollSpeed: 0.3
   invertY: 0
   maxHealth: 100
