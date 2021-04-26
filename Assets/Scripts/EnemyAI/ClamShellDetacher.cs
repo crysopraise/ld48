@@ -25,6 +25,7 @@ public class ClamShellDetacher : MonoBehaviour
             EnemyHealthScript clamscript = ClamParent.GetComponent<EnemyHealthScript>();
             clamscript.Vulnerable = true;
             HarpoonConnected = false;
+            Destroy(gameObject);
         }
     }
 

@@ -18,8 +18,11 @@ public class BossController : MonoBehaviour
     {
         if (BrainsRemaining <= 0) {
             anim.Play();
-            EnemyHealthScript endbrainhealthscript = Endbrain.GetComponent<EnemyHealthScript>();
-            endbrainhealthscript.Vulnerable = true;
+            if (Endbrain != null)
+            {
+                EnemyHealthScript endbrainhealthscript = Endbrain.GetComponent<EnemyHealthScript>();
+                endbrainhealthscript.Vulnerable = true;
+            }
         }
     }
 }
