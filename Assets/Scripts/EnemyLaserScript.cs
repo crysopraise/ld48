@@ -9,6 +9,8 @@ public class EnemyLaserScript : MonoBehaviour
 
     [SerializeField] GameObject impactPrefab;
     [SerializeField] GameObject PlayerObject;
+
+    bool destroyThis = false;
     
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,10 @@ public class EnemyLaserScript : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        if(destroyThis)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void OnCollisionEnter(Collision collision)
@@ -32,7 +38,11 @@ public class EnemyLaserScript : MonoBehaviour
         {
             PlayerMovement playerscript = PlayerObject.GetComponent<PlayerMovement>();
             playerscript.Damage(damage);
+            destroyThis = true;        }
+        if(collision.gameObject.tag == "Terrain") {
+            destroyThis = true;
         }
+        
     }
 
 }
