@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf7537a2960ac4b499e01f524ab8dd7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  armorSfx: {fileID: 0}
   impactPrefab: {fileID: 5182876470748940741, guid: 80e0c1fbed8b07443a7095eb04e2b19c, type: 3}
 --- !u!54 &7811190371440338233
 Rigidbody:

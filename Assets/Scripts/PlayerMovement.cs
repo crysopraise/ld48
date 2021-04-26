@@ -108,6 +108,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] AudioSource harpoonLaunchAudioSource;
     [SerializeField] AudioSource harpoonReelAudioSource;
     [SerializeField] AudioSource shipDingAudioSource;
+    [SerializeField] AudioSource healthPickupAudioSource;
+    [SerializeField] AudioSource torpedoPickupAudioSource;
     //[SerializeField] AudioClip damageSoundClip;
     //[SerializeField] AudioClip deathSoundClip;
     //[SerializeField] AudioClip harpoonLaunchClip;
@@ -579,6 +581,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void RestoreHealth(int h)
     {
+        healthPickupAudioSource.Play();
         health += h;
         if(health > 100)
         {
@@ -588,6 +591,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void AddTorpedos(int t)
     {
+        torpedoPickupAudioSource.Play();
         torpedoCount += t;
     }
 }

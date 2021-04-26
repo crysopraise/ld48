@@ -40,8 +40,6 @@ public class TorpedoScript : MonoBehaviour
 
             Collider[] objectsWithinExplosion = Physics.OverlapSphere(transform.position, 30.0f);
 
-            Debug.Log(objectsWithinExplosion.Length);
-
             foreach (Collider c in objectsWithinExplosion) {
                 if (c.gameObject.tag == "Enemy")
                 {

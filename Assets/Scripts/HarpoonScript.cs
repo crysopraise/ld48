@@ -114,13 +114,12 @@ public class HarpoonScript : MonoBehaviour
 
     public void DetachHarpoon()
     {
-        Debug.Log("detaching");
         harpoonFlying = false;
         stuckInTerrain = false;
         if (strikeJoint)
         {
             Rigidbody rb = strikeJoint.connectedBody;
-            DestroyImmediate(strikeJoint);
+            Destroy(strikeJoint);
             if (rb)
             {
                 if (rb.gameObject.CompareTag("PuzzleBlock"))

@@ -5,11 +5,16 @@ using UnityEngine;
 public class LaserImpactScript : MonoBehaviour
 {
     [SerializeField] float lifetime;
+    [SerializeField] AudioSource armorImpactSfx;
+    public bool armorImpact = false;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        if(armorImpact)
+        {
+            armorImpactSfx.Play();
+        }
     }
 
     // Update is called once per frame
