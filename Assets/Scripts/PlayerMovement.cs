@@ -270,7 +270,7 @@ public class PlayerMovement : MonoBehaviour
                 harpoonRopeLength = harpoonDistance;
             }
 
-            if (harpoonRopeLength < 2.0f || harpoonScript.stuckInTerrain)
+            if (harpoonRopeLength < 5.0f || harpoonScript.stuckInTerrain)
             {
                 harpoonScript.DetachHarpoon();
             }
