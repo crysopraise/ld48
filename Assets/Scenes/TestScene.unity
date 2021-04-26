@@ -1522,6 +1522,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5755425933772427745, guid: 9a57ee6ba39634b47bb3bd50b4d659e2, type: 3}
+      propertyPath: m_Cookie
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5755425933772427745, guid: 9a57ee6ba39634b47bb3bd50b4d659e2, type: 3}
+      propertyPath: m_DrawHalo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5755425933772427745, guid: 9a57ee6ba39634b47bb3bd50b4d659e2, type: 3}
+      propertyPath: m_Intensity
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5755425934654909237, guid: 9a57ee6ba39634b47bb3bd50b4d659e2, type: 3}
+      propertyPath: m_Cookie
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5755425934654909237, guid: 9a57ee6ba39634b47bb3bd50b4d659e2, type: 3}
+      propertyPath: m_DrawHalo
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5755425934654909237, guid: 9a57ee6ba39634b47bb3bd50b4d659e2, type: 3}
+      propertyPath: m_Intensity
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 5755425934958756995, guid: 9a57ee6ba39634b47bb3bd50b4d659e2, type: 3}
       propertyPath: m_Name
       value: Player
