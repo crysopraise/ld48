@@ -13,6 +13,7 @@ public class ClamScript : MonoBehaviour
     [SerializeField] float regularTurnSpeed;
     [SerializeField] float chargingTurnSpeed;
     [SerializeField] float shootingTurnSpeed;
+    [SerializeField] int laserDamage;
 
     // Variables
     const float DETECTION_RANGE = 100;
@@ -24,6 +25,7 @@ public class ClamScript : MonoBehaviour
     GameObject laserInstance;
     AttackState attackState = AttackState.AttackingPlayer;
     bool canAttack = true;
+    bool laserHit = false;
     List<Animation> animations = new List<Animation>();
 
     GameObject debugLaser;
@@ -54,12 +56,13 @@ public class ClamScript : MonoBehaviour
             turnSpeed = shootingTurnSpeed;
             RaycastHit hit;
             Physics.SphereCast(transform.position, laserRadius, transform.forward, out hit, laserRange);
-            if (hit.collider != null)
+            if (hit.collider != null && laserHit == false)
             {
                 if (hit.collider.gameObject.CompareTag("Player"))
                 {
                     Debug.Log("player hit! eat it bitch!!");
-                    // Damage player
+                    hit.collider.gameObject.GetComponent<PlayerMovement>().Damage(laserDamage);
+                    laserHit = true;
                 }
             }
 
@@ -102,6 +105,8 @@ public class ClamScript : MonoBehaviour
         attackState = AttackState.AttackingPlayer;
         Invoke("ResetAttack", attackCooldown);
         Invoke("StopAnimation", 6 - laserDuration - chargeTime);
+
+        laserHit = false;
     }
 
     void ResetAttack() {

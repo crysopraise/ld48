@@ -5,7 +5,6 @@ using UnityEngine;
 public class ExplosionScript : MonoBehaviour
 {
     [SerializeField] int damage = 20;
-    float lifetime = 0.1f;
 
     // Start is called before the first frame update
     void Start()

@@ -1010,6 +1010,10 @@ MonoBehaviour:
   maxHealth: 100
   healthRegenDelay: 0
   healthRegenRate: 0
+  deathScreenFadeObject: {fileID: 0}
+  deathTime: 10
+  deathScreenFadeTime: 7.5
+  deathImmediateScreenTint: 0.25
   LaserTravelSpeed: 100
   laserBaseFireRate: 0.05
   laserOverheatedFireRate: 0.15
@@ -1031,6 +1035,7 @@ MonoBehaviour:
   torpedoTextObject: {fileID: 5755425934522796614}
   torpedoCountTextObject: {fileID: 5755425933637014852}
   damageSoundClip: {fileID: 8300000, guid: c575fce7f2dfce141bf935cc71d952d1, type: 3}
+  deathSoundClip: {fileID: 8300000, guid: 61e9adf99cc066147ac3cf0ad959eaa6, type: 3}
   harpoonLaunchClip: {fileID: 8300000, guid: 72c2792c31f27ea41854180562330bcb, type: 3}
   harpoonReelClip: {fileID: 8300000, guid: 222ae5194173a5f40ac4761536621778, type: 3}
 --- !u!54 &5755425934958756994

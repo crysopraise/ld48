@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float rollSpeed = 1.0f;
     [SerializeField] bool invertY = false;
 
+    bool lockControls = false;
+
     //[SerializeField] float laserDamage = 1.0f;
     //[SerializeField] float torpedoDamage = 10.0f;
     //[SerializeField] float harpoonDamage = 3.0f;
@@ -23,6 +26,12 @@ public class PlayerMovement : MonoBehaviour
     int health;
     [SerializeField] float healthRegenDelay;
     [SerializeField] int healthRegenRate;
+    [SerializeField] GameObject deathScreenFadeObject;
+    Image deathScreenFadeImage;
+    bool dying = false;
+    [SerializeField] float deathTime;
+    [SerializeField] float deathScreenFadeTime;
+    [SerializeField] float deathImmediateScreenTint;
 
     [SerializeField] float LaserTravelSpeed = 100f;
 
@@ -89,9 +98,11 @@ public class PlayerMovement : MonoBehaviour
     Text torpedoCountText;
 
     AudioSource damageAudioSource;
+    AudioSource deathAudioSource;
     AudioSource harpoonLaunchAudioSource;
     AudioSource harpoonReelAudioSource;
     [SerializeField] AudioClip damageSoundClip;
+    [SerializeField] AudioClip deathSoundClip;
     [SerializeField] AudioClip harpoonLaunchClip;
     [SerializeField] AudioClip harpoonReelClip;
 
@@ -128,17 +139,32 @@ public class PlayerMovement : MonoBehaviour
 
         harpoonRopeRenderer = gameObject.GetComponent<LineRenderer>();
 
+        deathScreenFadeImage = deathScreenFadeObject.GetComponent<Image>();
+
         harpoonReeling = false;
 
-        AudioSource[] audioSources = gameObject.GetComponents<AudioSource>();
-        damageAudioSource = audioSources[0];
+        //AudioSource[] audioSources = gameObject.GetComponents<AudioSource>();
+        //damageAudioSource = audioSources[0];
+        damageAudioSource = gameObject.AddComponent<AudioSource>();
+        damageAudioSource.clip = damageSoundClip;
+        damageAudioSource.loop = false;
 
-        harpoonLaunchAudioSource = audioSources[1];
+        deathAudioSource = gameObject.AddComponent<AudioSource>();
+        deathAudioSource.clip = deathSoundClip;
+        deathAudioSource.loop = false;
+
+
+        //harpoonLaunchAudioSource = audioSources[1];
+        harpoonLaunchAudioSource = gameObject.AddComponent<AudioSource>();
         harpoonLaunchAudioSource.clip = harpoonLaunchClip;
+        harpoonLaunchAudioSource.loop = false;
 
-        harpoonReelAudioSource = audioSources[2];
+        // harpoonReelAudioSource = audioSources[2];
+        harpoonReelAudioSource = gameObject.AddComponent<AudioSource>();
         harpoonReelAudioSource.clip = harpoonReelClip;
         harpoonReelAudioSource.loop = true;
+
+
 
         ReloadHarpoon();
     }
@@ -151,6 +177,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(Input.GetKey(KeyCode.K)) {
+            Damage(1000);
+        }
+
         body.AddRelativeTorque(GetRotation(), ForceMode.VelocityChange);
         body.AddRelativeForce(GetDirection() * moveSpeed, ForceMode.VelocityChange);
 
@@ -160,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
             laserHeat += Time.fixedDeltaTime;
         } else
         {
-            if (Input.GetMouseButton(0) && !laserIsOverheated)
+            if (Input.GetMouseButton(0) && !laserIsOverheated && !lockControls)
             {
                 FireLaser();
                 if (laserHeat > laserOverheatThreshold)
@@ -186,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(1) && !lockControls)
             {
                 FireTorpedo();
             }
@@ -198,7 +228,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // reel in harpoon
-        if (Input.GetKey(KeyCode.Space) && harpoonReelTimer <= 0 && !harpoonAttached)
+        if (Input.GetKey(KeyCode.Space) && harpoonReelTimer <= 0 && !harpoonAttached && !lockControls)
         {
             harpoonReeling = true;
         }
@@ -254,7 +284,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // This code has to be in Update because GetKeyDown doesn't work with FixedUpdate
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !lockControls)
         {
             if (harpoonAttached)
             {
@@ -263,18 +293,29 @@ public class PlayerMovement : MonoBehaviour
         }
 
         harpoonRopeRenderer.SetPositions(new Vector3[] { gameObject.transform.TransformPoint(harpoonAttachmentPoint), harpoon.transform.position });
+
+        if(dying)
+        {
+            Color c = deathScreenFadeImage.color;
+            c.a += (1.0f - deathImmediateScreenTint) * Time.deltaTime / deathScreenFadeTime;
+            if (c.a > 1.0f) c.a = 1.0f;
+            deathScreenFadeImage.color = c;
+        }
     }
 
     Vector3 GetDirection()
     {
         // Create a movement direction vector based on keyboard input.
         var dir = new Vector3();
-        if (Input.GetKey(KeyCode.W)) dir += Vector3.forward;
-        if (Input.GetKey(KeyCode.S)) dir += Vector3.back;
-        if (Input.GetKey(KeyCode.A)) dir += Vector3.left;
-        if (Input.GetKey(KeyCode.D)) dir += Vector3.right;
-        if (Input.GetKey(KeyCode.LeftControl)) dir += Vector3.down;
-        if (Input.GetKey(KeyCode.LeftShift)) dir += Vector3.up;
+        if (!lockControls)
+        {
+            if (Input.GetKey(KeyCode.W)) dir += Vector3.forward;
+            if (Input.GetKey(KeyCode.S)) dir += Vector3.back;
+            if (Input.GetKey(KeyCode.A)) dir += Vector3.left;
+            if (Input.GetKey(KeyCode.D)) dir += Vector3.right;
+            if (Input.GetKey(KeyCode.LeftControl)) dir += Vector3.down;
+            if (Input.GetKey(KeyCode.LeftShift)) dir += Vector3.up;
+        }
         return dir;
     }
 
@@ -283,8 +324,11 @@ public class PlayerMovement : MonoBehaviour
         float yaw = Input.GetAxis("Mouse X");
         float pitch = Input.GetAxis("Mouse Y") * (invertY ? 1 : -1);
         float roll = 0;
-        if (Input.GetKey(KeyCode.Q)) roll += 1;
-        if (Input.GetKey(KeyCode.E)) roll -= 1;
+        if (!lockControls)
+        {
+            if (Input.GetKey(KeyCode.Q)) roll += 1;
+            if (Input.GetKey(KeyCode.E)) roll -= 1;
+        }
         return new Vector3(pitch * turnSpeed, yaw * turnSpeed, roll * rollSpeed);
     }
 
@@ -432,12 +476,34 @@ public class PlayerMovement : MonoBehaviour
     {
         health -= d;
         Debug.Log("Took " + d + " damage");
-        damageAudioSource.clip = damageSoundClip;
-        damageAudioSource.Play();
         if(health <= 0)
         {
-            // game over!
+            if(!dying) PlayerDie();
+        } else
+        {
+            damageAudioSource.Play();
         }
+    }
+    
+    void PlayerDie()
+    {
+        // game over!
+        dying = true;
+        deathAudioSource.Play();
+        lockControls = true;
+        
+        Color c = deathScreenFadeImage.color;
+        c.a = deathImmediateScreenTint;
+        deathScreenFadeImage.color = c;
+
+        Invoke("GameOver", deathTime);
+    }
+
+    void GameOver()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        SceneManager.LoadScene("GameOver");
     }
 
     public void RegenHealth()
