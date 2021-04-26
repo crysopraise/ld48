@@ -54,6 +54,14 @@ public class HarpoonScript : MonoBehaviour
                 audioSource.Play();
             }
 
+            if (other.gameObject.tag == "EnemyHarpoonable")
+            {
+                EnemyHealthScript s = other.gameObject.GetComponent<EnemyHealthScript>();
+                s.Damage(damage);
+                audioSource.clip = fleshImpactClip;
+                audioSource.Play();
+            }
+
             gameObject.AddComponent<FixedJoint>();
             strikeJoint = gameObject.GetComponent<FixedJoint>();
             if (other.attachedRigidbody)

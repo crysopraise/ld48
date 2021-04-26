@@ -48,6 +48,11 @@ public class TorpedoScript : MonoBehaviour
                     EnemyHealthScript s = c.gameObject.GetComponent<EnemyHealthScript>();
                     s.Damage(damage);
                 }
+                if (c.gameObject.tag == "EnemyHarpoonable")
+                {
+                    EnemyHealthScript s = c.gameObject.GetComponent<EnemyHealthScript>();
+                    s.Damage(damage);
+                }
             }
         }
     }

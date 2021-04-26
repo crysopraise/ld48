@@ -37,6 +37,11 @@ public class LaserScript : MonoBehaviour
             EnemyHealthScript s = collision.gameObject.GetComponent<EnemyHealthScript>();
             s.Damage(damage);
         }
+        if(collision.gameObject.tag == "EnemyHarpoonable")
+        {
+            EnemyHealthScript s = collision.gameObject.GetComponent<EnemyHealthScript>();
+            s.Damage(damage);
+        }
     }
 
 }
