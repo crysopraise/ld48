@@ -28,6 +28,8 @@ public class BarnacleScript : MonoBehaviour
 
     bool detachedFromWall;
 
+    [SerializeField] Rigidbody localrb;
+
     void Awake() {
         player = GameObject.Find("Player");
         wallMask = LayerMask.GetMask("Wall");
@@ -80,5 +82,6 @@ public class BarnacleScript : MonoBehaviour
     public void Detach()
     {
         detachedFromWall = true;
+        localrb.AddRelativeForce(Vector3.up * 10000);
     }
 }
