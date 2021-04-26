@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5848805134215118185}
   - component: {fileID: 4280189867470816001}
   - component: {fileID: 8154074337498011067}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Harpoon
   m_TagString: Player
   m_Icon: {fileID: 0}

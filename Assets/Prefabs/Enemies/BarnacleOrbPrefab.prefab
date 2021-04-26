@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7855797869194112332}
   - component: {fileID: 6416414719209237970}
   - component: {fileID: 9070147993151719119}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BarnacleOrbPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,6 +185,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5457b490968704ebca8e9b04feee478c, type: 3}
       propertyPath: m_Name
       value: BarnacleProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5457b490968704ebca8e9b04feee478c, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5457b490968704ebca8e9b04feee478c, type: 3}

@@ -15,10 +15,13 @@ public class Endgame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnDestroy() {
-        SceneManager.LoadScene("GameOver");
+        SceneManager.LoadScene("WinScreen");
     }
 }
