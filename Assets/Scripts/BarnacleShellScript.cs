@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BarnacleShellScript : MonoBehaviour
 {
-    //[SerializeField] GameObject BarnacleShell;
     [SerializeField] GameObject BarnacleParent;
 
     FixedJoint TerrainAttachment;

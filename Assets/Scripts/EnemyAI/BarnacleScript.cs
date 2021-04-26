@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BarnacleScript : MonoBehaviour
 {
+    // NOTE: For the barnacle to work, remember to set the Terrain variable in the editor so that its squishy body won't collide with the terrain!
     [SerializeField] GameObject orbPrefab;
     [SerializeField] float BulletSpeed;
     [SerializeField] float AttackDelay;
