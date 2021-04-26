@@ -7,6 +7,7 @@ public class EnemyHealthScript : MonoBehaviour
     [SerializeField] int Health;
     [SerializeField] GameObject deathPrefab;
     [SerializeField] GameObject enemyRootObject;
+    [SerializeField] AudioClip deathSound;
     public bool Vulnerable;
 
     // Start is called before the first frame update
@@ -28,6 +29,7 @@ public class EnemyHealthScript : MonoBehaviour
             if (Health < -0)
             {
                 Instantiate(deathPrefab, this.transform.position, Quaternion.identity);
+                deathPrefab.GetComponent<BloodScript>().deathSound = deathSound;
                 Destroy(enemyRootObject);
             }
         }

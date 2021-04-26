@@ -21,6 +21,10 @@ public class BarnacleScript : MonoBehaviour
     bool attackReady = true;
     Material debugMaterial;
 
+    [SerializeField] AudioSource attackSoundSource;
+    [SerializeField] AudioSource ambientSoundSource;
+    float ambientSoundTimer;
+
     bool detachedFromWall;
 
     void Awake() {
@@ -29,6 +33,8 @@ public class BarnacleScript : MonoBehaviour
         debugMaterial = GetComponent<MeshRenderer>().material;
         Physics.IgnoreCollision(Terrain.GetComponent<Collider>(), GetComponent<Collider>());    // Note: Don't disable collisions between the shell and the terrain!
         detachedFromWall = false;
+
+        ambientSoundTimer = Random.Range(5f, 10f);
     }
 
     void FixedUpdate()
@@ -41,6 +47,7 @@ public class BarnacleScript : MonoBehaviour
             if (!Physics.Raycast(firePoint.transform.position, playerDirection, playerDistance, wallMask) && attackReady && !detachedFromWall) {
                 debugMaterial.color = Color.green;
 
+                attackSoundSource.Play();
                 GameObject orb = Instantiate(orbPrefab, firePoint.transform.position, Quaternion.LookRotation(playerDirection));
                 Physics.IgnoreCollision(orb.GetComponent<Collider>(), GetComponent<Collider>());
                 Physics.IgnoreCollision(orb.GetComponent<Collider>(), Shell.GetComponent<Collider>());
@@ -50,6 +57,13 @@ public class BarnacleScript : MonoBehaviour
             }
         } else {
             debugMaterial.color = Color.white;
+        }
+
+        ambientSoundTimer -= Time.fixedDeltaTime;
+        if(ambientSoundTimer <= 0)
+        {
+            ambientSoundSource.Play();
+            ambientSoundTimer = Random.Range(5f, 10f);
         }
     }
 
