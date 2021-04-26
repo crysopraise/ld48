@@ -9,6 +9,9 @@ public class BarnacleScript : MonoBehaviour
     [SerializeField] float AttackDelay;
     [SerializeField] float AttackRange;
 
+    [SerializeField] GameObject Shell;
+    [SerializeField] GameObject Terrain;
+
     float DETECTION_RANGE = 100;
 
     GameObject player;
@@ -22,6 +25,7 @@ public class BarnacleScript : MonoBehaviour
         wallMask = LayerMask.GetMask("Wall");
         firePoint = transform.Find("FirePoint").position;
         debugMaterial = GetComponent<MeshRenderer>().material;
+        Physics.IgnoreCollision(Terrain.GetComponent<Collider>(), GetComponent<Collider>());    // Note: Don't disable collisions between the shell and the terrain!
     }
 
     void FixedUpdate()
@@ -35,6 +39,8 @@ public class BarnacleScript : MonoBehaviour
                 debugMaterial.color = Color.green;
 
                 GameObject orb = Instantiate(orbPrefab, firePoint, Quaternion.LookRotation(playerDirection));
+                Physics.IgnoreCollision(orb.GetComponent<Collider>(), GetComponent<Collider>());
+                Physics.IgnoreCollision(orb.GetComponent<Collider>(), Shell.GetComponent<Collider>());
                 orb.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * BulletSpeed, ForceMode.VelocityChange);
                 canAttack = false;
                 Invoke("ResetAttack", AttackDelay);

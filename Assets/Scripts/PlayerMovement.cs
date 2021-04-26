@@ -228,9 +228,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // reel in harpoon
-        if (Input.GetKey(KeyCode.Space) && harpoonReelTimer <= 0 && !harpoonAttached && !lockControls)
+        if (Input.GetKey(KeyCode.Space) && harpoonReelTimer <= 0 && !harpoonAttached && !lockControls && !harpoonReeling)
         {
             harpoonReeling = true;
+            harpoonScript.RetractHarpoon();
         }
 
         if(harpoonReeling && harpoonReelTimer <= 0 && !harpoonAttached)
@@ -238,10 +239,12 @@ public class PlayerMovement : MonoBehaviour
             if (harpoonScript.EnemyStuck())
             {
                 harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonStuckReelSpeed;
+                //harpoonBody.AddForce((gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonStuckReelSpeed * 10.0f * Time.fixedDeltaTime);
             }
             else
             {
                 harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonReelSpeed;
+                //harpoonBody.AddForce((gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonReelSpeed * 10.0f * Time.fixedDeltaTime);
             }
 
             harpoonRopeLength -= harpoonReelSpeed * Time.fixedDeltaTime;
@@ -252,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
                 harpoonRopeLength = harpoonDistance;
             }
 
-            if (harpoonRopeLength < 30f || harpoonScript.stuckInTerrain)
+            if (harpoonRopeLength < 5.0f || harpoonScript.stuckInTerrain)
             {
                 harpoonScript.DetachHarpoon();
             }

@@ -39,10 +39,17 @@ public class HarpoonScript : MonoBehaviour
         {
             harpoonFlying = false;
 
-            if (other.gameObject.tag == "EnemyArmor")
+            if (other.gameObject.tag == "ClamArmor")
             {
-                ClamShellScript s = other.gameObject.GetComponent<ClamShellScript>();
-                s.OnHarpoonHit();
+                //ClamShellScript s = other.gameObject.GetComponent<ClamShellScript>();
+                //s.OnHarpoonHit();
+                audioSource.clip = chitinImpactClip;
+                audioSource.Play();
+            }
+            if (other.gameObject.tag == "BarnacleArmor")
+            {
+                //BarnacleShellScript b = other.gameObject.GetComponent<BarnacleShellScript>();
+                //b.OnHarpoonHit();
                 audioSource.clip = chitinImpactClip;
                 audioSource.Play();
             }
@@ -62,8 +69,7 @@ public class HarpoonScript : MonoBehaviour
                 audioSource.Play();
             }
 
-            gameObject.AddComponent<FixedJoint>();
-            strikeJoint = gameObject.GetComponent<FixedJoint>();
+            strikeJoint = gameObject.AddComponent<FixedJoint>();
             if (other.attachedRigidbody)
             {
                 strikeJoint.connectedBody = other.attachedRigidbody;
@@ -73,6 +79,22 @@ public class HarpoonScript : MonoBehaviour
                 audioSource.clip = rockImpactClip;
                 audioSource.Play();
                 stuckInTerrain = true;
+            }
+        }
+    }
+
+    public void RetractHarpoon()
+    {
+        if(strikeJoint)
+        {
+            if(strikeJoint.connectedBody)
+            {
+
+                if (strikeJoint.connectedBody.tag == "BarnacleArmor")
+                {
+                    BarnacleShellScript b = strikeJoint.connectedBody.GetComponent<BarnacleShellScript>();
+                    b.UnstickFromTerrain();
+                }
             }
         }
     }
@@ -88,7 +110,7 @@ public class HarpoonScript : MonoBehaviour
         stuckInTerrain = false;
         if (strikeJoint)
         {
-            DestroyImmediate(strikeJoint);
+            Destroy(strikeJoint);
         }
     }
 

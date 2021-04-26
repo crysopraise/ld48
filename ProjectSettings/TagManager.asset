@@ -5,8 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - EnemyArmor
   - EnemyHarpoonable
+  - ClamArmor
+  - BarnacleArmor
   layers:
   - Default
   - TransparentFX
