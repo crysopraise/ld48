@@ -36,7 +36,6 @@ public class ClamScript : MonoBehaviour
         animations.Add(transform.Find("clam1").gameObject.GetComponent<Animation>());
         animations.Add(transform.Find("clam2").gameObject.GetComponent<Animation>());
         animations.Add(transform.Find("clam3").gameObject.GetComponent<Animation>());
-        }
     }
 
     void FixedUpdate() {
