@@ -18,7 +18,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.5
+    value: 2
   threshold:
     overrideState: 1
     value: 0.8
@@ -111,45 +111,7 @@ MonoBehaviour:
   settings:
   - {fileID: -7333840503805709821}
   - {fileID: -7653481977332357096}
-  - {fileID: 3190144855426055023}
   - {fileID: 3720912600564261282}
---- !u!114 &3190144855426055023
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
-  m_Name: AutoExposure
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  filtering:
-    overrideState: 1
-    value: {x: 50, y: 95}
-  minLuminance:
-    overrideState: 1
-    value: 0
-  maxLuminance:
-    overrideState: 1
-    value: 0
-  keyValue:
-    overrideState: 1
-    value: 1
-  eyeAdaptation:
-    overrideState: 1
-    value: 0
-  speedUp:
-    overrideState: 1
-    value: 2
-  speedDown:
-    overrideState: 1
-    value: 1
 --- !u!114 &3720912600564261282
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -178,13 +140,13 @@ MonoBehaviour:
     value: 1
   toneCurveToeStrength:
     overrideState: 1
-    value: 0
+    value: 0.58
   toneCurveToeLength:
     overrideState: 1
-    value: 0.5
+    value: 0.82
   toneCurveShoulderStrength:
     overrideState: 1
-    value: 0
+    value: 0.18
   toneCurveShoulderLength:
     overrideState: 1
     value: 0.5
@@ -193,7 +155,7 @@ MonoBehaviour:
     value: 0
   toneCurveGamma:
     overrideState: 1
-    value: 1
+    value: 0.76
   ldrLut:
     overrideState: 1
     value: {fileID: 0}
@@ -221,7 +183,7 @@ MonoBehaviour:
     value: 0
   postExposure:
     overrideState: 1
-    value: 1
+    value: 1.5
   contrast:
     overrideState: 1
     value: 0
@@ -260,7 +222,7 @@ MonoBehaviour:
     value: {x: 0.6096959, y: 0.66092205, z: 1, w: 0}
   gain:
     overrideState: 1
-    value: {x: 1, y: 0.27934372, z: 0, w: 0}
+    value: {x: 1, y: 0.040957857, z: 0, w: 0}
   masterCurve:
     overrideState: 1
     value:
