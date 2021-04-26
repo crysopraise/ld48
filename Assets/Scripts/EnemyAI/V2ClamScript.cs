@@ -9,6 +9,8 @@ public class V2ClamScript : MonoBehaviour
     bool turning;
     Rigidbody rb;
     GameObject player;
+    [SerializeField] GameObject LaserFiringPoint;
+    [SerializeField] GameObject EnemyLaserPrefab;
 
     void Start()
     {
@@ -21,7 +23,7 @@ public class V2ClamScript : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 playerHeading = player.transform.position - transform.position;
-        if (AnimTimer > 1) {
+        if (AnimTimer > 4) {
             turning = false;
         }
         if (turning) {
@@ -30,12 +32,14 @@ public class V2ClamScript : MonoBehaviour
         if (AnimTimer > 4.68 && fired == false) {
             fired = true;
             //Spawn bullet here
+            GameObject newLaser = Instantiate(EnemyLaserPrefab, LaserFiringPoint.transform.position, gameObject.transform.rotation);
+            Vector3 firingDirection = gameObject.transform.forward;
+            newLaser.GetComponent<Rigidbody>().AddForce(firingDirection.normalized * 1000);
         }
         if (AnimTimer > 5.5) {
-            rb.AddRelativeForce(Vector3.forward * 1000);
+            rb.AddRelativeForce(Vector3.forward * 250);
         }
         AnimTimer = AnimTimer + Time.deltaTime;
-        Debug.Log(AnimTimer);
         if (AnimTimer >= 6) {
             AnimTimer = 0;
             fired = false;
