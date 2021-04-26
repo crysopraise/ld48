@@ -4,26 +4,22 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
-  - EnemyHarpoonable
-  - ClamArmor
-  - BarnacleArmor
-  - EnemyArmor
-<<<<<<< Updated upstream
   - PuzzleBlock
-=======
+  - Enemy
+  - BarnacleArmor
+  - ClamArmor
+  - EnemyArmor
   - Terrain
->>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Wall
+  - 
   - Water
   - UI
-  - Enemy
-  - Enemy Projectiles
-  - Harpoon
+  - 
+  - 
+  - 
   - 
   - 
   - 
