@@ -4139,6 +4139,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barnacle (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 730257030585413846, guid: 5efdeec49d3064613b85f797dfa428bd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5efdeec49d3064613b85f797dfa428bd, type: 3}
 --- !u!4 &1856681876 stripped
