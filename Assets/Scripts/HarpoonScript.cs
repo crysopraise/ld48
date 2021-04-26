@@ -108,6 +108,7 @@ public class HarpoonScript : MonoBehaviour
     public void FireHarpoon()
     {
         harpoonFlying = true;
+        gameObject.tag = "Untagged";
     }
 
     public void DetachHarpoon()

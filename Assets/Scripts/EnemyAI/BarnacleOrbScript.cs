@@ -6,13 +6,16 @@ public class BarnacleOrbScript : MonoBehaviour
 {
 
     float lifetime = 10;
+    [SerializeField] GameObject PlayerObject;
 
     void Awake() {
         GetComponent<MeshRenderer>().material.color = Color.magenta;
     }
 
     void Start() {
-        Debug.Log("Barnacle orb instantiated");
+        //Debug.Log("Barnacle orb instantiated");
+        PlayerObject = GameObject.Find("Player");
+
     }
 
     void FixedUpdate()
@@ -27,7 +30,8 @@ public class BarnacleOrbScript : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Player")) {
-            // Hurt player
+            PlayerMovement playerscript = PlayerObject.GetComponent<PlayerMovement>();
+            playerscript.Damage(5);
         }
         Destroy(this.gameObject);
     }

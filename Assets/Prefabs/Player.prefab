@@ -1019,7 +1019,7 @@ MonoBehaviour:
   laserOverheatedFireRate: 0.15
   laserBaseSpreadRadius: 0.01
   laserOverheatedSpreadRadius: 0.08
-  laserOverheatThreshold: 2.5
+  laserOverheatThreshold: 5
   laserCooldownTime: 2.5
   torpedoFireRate: 1
   torpedoLimit: 5

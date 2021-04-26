@@ -16,29 +16,28 @@ public class BarnacleScript : MonoBehaviour
 
     GameObject player;
     LayerMask wallMask;
-    Vector3 firePoint;
+    [SerializeField] GameObject firePoint;
     bool canAttack = true;
     Material debugMaterial;
 
     void Awake() {
         player = GameObject.Find("Player");
         wallMask = LayerMask.GetMask("Wall");
-        firePoint = transform.Find("FirePoint").position;
         debugMaterial = GetComponent<MeshRenderer>().material;
         Physics.IgnoreCollision(Terrain.GetComponent<Collider>(), GetComponent<Collider>());    // Note: Don't disable collisions between the shell and the terrain!
     }
 
     void FixedUpdate()
     {
-        Vector3 playerHeading = player.transform.position - firePoint;
+        Vector3 playerHeading = player.transform.position - firePoint.transform.position;
         // Apparently this is more efficient then calculating the magnitude, so wait until player is actually in range to do that
         if (playerHeading.sqrMagnitude <= DETECTION_RANGE * DETECTION_RANGE) {
             float playerDistance = playerHeading.magnitude;
             Vector3 playerDirection = playerHeading / playerDistance;
-            if (!Physics.Raycast(firePoint, playerDirection, playerDistance, wallMask) && canAttack) {
+            if (!Physics.Raycast(firePoint.transform.position, playerDirection, playerDistance, wallMask) && canAttack) {
                 debugMaterial.color = Color.green;
 
-                GameObject orb = Instantiate(orbPrefab, firePoint, Quaternion.LookRotation(playerDirection));
+                GameObject orb = Instantiate(orbPrefab, firePoint.transform.position, Quaternion.LookRotation(playerDirection));
                 Physics.IgnoreCollision(orb.GetComponent<Collider>(), GetComponent<Collider>());
                 Physics.IgnoreCollision(orb.GetComponent<Collider>(), Shell.GetComponent<Collider>());
                 orb.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * BulletSpeed, ForceMode.VelocityChange);

@@ -458,6 +458,8 @@ public class PlayerMovement : MonoBehaviour
     {
         harpoonScript.DetachHarpoon();
 
+        harpoon.tag = "Player";
+
         harpoon.transform.position = gameObject.transform.position + gameObject.transform.rotation * harpoonAttachmentPoint;
         harpoon.transform.rotation = gameObject.transform.rotation * harpoonAttachmentRotation;
         harpoonBody.velocity = body.velocity;
