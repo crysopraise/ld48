@@ -13,6 +13,8 @@ public class PiranhaScript : MonoBehaviour
     [SerializeField] int AttackDamage;
     //[SerializeField] AudioSource attackSoundSource;
     [SerializeField] AudioSource ambientSoundSource;
+    [SerializeField] GameObject PlayerObject;
+
 
     float DETECTION_RANGE = 100;
 
@@ -29,6 +31,10 @@ public class PiranhaScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         ambientSoundTimer = Random.Range(5f, 10f);
+    }
+
+    void Start() {
+        PlayerObject =  GameObject.Find("Player");
     }
 
     void FixedUpdate()
@@ -75,9 +81,10 @@ public class PiranhaScript : MonoBehaviour
             // Damage player
 
             rb.AddRelativeForce(Vector3.back * KnockBackVelocity, ForceMode.VelocityChange);
-            if (collision.gameObject.tag == "player")
+            if (collision.gameObject.tag == "Player")
             {
-                collision.gameObject.GetComponent<PlayerMovement>().Damage(AttackDamage);
+                PlayerMovement playerscript = PlayerObject.GetComponent<PlayerMovement>();
+                playerscript.Damage(AttackDamage);
             }
             canAttack = false;
             Invoke("ResetAttack", AttackDelay);
