@@ -7,7 +7,6 @@ public class LaserScript : MonoBehaviour
     float lifetime;
     int damage = 1;
 
-    [SerializeField] AudioSource armorSfx;
     [SerializeField] GameObject impactPrefab;
     
     // Start is called before the first frame update
@@ -47,7 +46,8 @@ public class LaserScript : MonoBehaviour
             s.Damage(damage);
             destroyThis = true;
         }
-        if(collision.gameObject.CompareTag("BarnacleArmor") || collision.gameObject.CompareTag("ClamArmor"))
+        Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.CompareTag("BarnacleArmor") || collision.gameObject.CompareTag("ClamArmor"))
         {
             armorImpact = true;
         }
@@ -56,6 +56,16 @@ public class LaserScript : MonoBehaviour
         {
             GameObject i = Instantiate(impactPrefab, this.transform.position, Quaternion.identity);
             if (armorImpact) i.GetComponent<LaserImpactScript>().armorImpact = true;
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("ClamArmor"))
+        {
+            GameObject i = Instantiate(impactPrefab, this.transform.position, Quaternion.identity);
+            i.GetComponent<LaserImpactScript>().armorImpact = true;
             Destroy(this.gameObject);
         }
     }
