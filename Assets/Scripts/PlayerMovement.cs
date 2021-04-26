@@ -96,6 +96,12 @@ public class PlayerMovement : MonoBehaviour
     Text torpedoText;
     [SerializeField] GameObject torpedoCountTextObject;
     Text torpedoCountText;
+    [SerializeField] GameObject hullTextObject;
+    Text hullText;
+    [SerializeField] GameObject hullPercentageTextObject;
+    Text hullPercentageText;
+    [SerializeField] GameObject harpoonTextObject;
+    Text harpoonText;
 
     AudioSource damageAudioSource;
     AudioSource deathAudioSource;
@@ -116,6 +122,9 @@ public class PlayerMovement : MonoBehaviour
         laserHeatText = laserHeatTextObject.GetComponent<Text>();
         torpedoText = torpedoTextObject.GetComponent<Text>();
         torpedoCountText = torpedoCountTextObject.GetComponent<Text>();
+        hullText = hullTextObject.GetComponent<Text>();
+        hullPercentageText = hullPercentageTextObject.GetComponent<Text>();
+        harpoonText = harpoonTextObject.GetComponent<Text>();
 
         laserShotTimer = 0;
         laserHeat = 0;
@@ -371,6 +380,44 @@ public class PlayerMovement : MonoBehaviour
             torpedoText.color = Color.gray;
             torpedoCountText.color = Color.gray;
         }
+
+        hullPercentageText.text = health + "%";
+        if (health <= 0)
+        {
+            hullPercentageText.text = "0%";
+            hullText.color = new Color(0.1f, 0, 0, 1);  // dark red
+            hullPercentageText.color = new Color(0.1f, 0, 0, 1);
+        }
+        else if (health <= 20)
+        {
+            hullText.color = Color.red;
+            hullPercentageText.color = Color.red;
+        }
+        else if (health <= 50)
+        {
+            hullText.color = Color.yellow;
+            hullPercentageText.color = Color.yellow;
+        }
+        else
+        {
+            laserText.color = Color.gray;
+            laserHeatText.color = Color.gray;
+        }
+
+        if(harpoonAttached)
+        {
+            harpoonText.text = "Harpoon Ready";
+            harpoonText.color = Color.gray;
+        } else if(harpoonReeling)
+        {
+            harpoonText.text = "Harpoon Reeling In";
+            harpoonText.color = Color.yellow;
+        } else 
+        {
+            harpoonText.text = "Harpoon Fired";
+            harpoonText.color = Color.red;
+        }
+        
     }
 
     private Vector3 LaserFiringPoint()   // Get location to fire laser projectile from
