@@ -1170,7 +1170,7 @@ MonoBehaviour:
   torpedoPrefab: {fileID: 3322053028938406802, guid: c6d970ec476942c43bfb73339c7b5d77, type: 3}
   laserPrefab: {fileID: 3322053028938406802, guid: 176e2522fad8b4946be5beeb7e16c1fb, type: 3}
   moveSpeed: 1
-  turnSpeed: 1
+  turnSpeed: 0.5
   rollSpeed: 0.3
   invertY: 0
   maxHealth: 100
@@ -2356,6 +2356,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 533854819485121151, guid: 1dfc8f263ccece24cbfc6b053e357b10, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4097953718724141008, guid: 1dfc8f263ccece24cbfc6b053e357b10, type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4097953718724141008, guid: 1dfc8f263ccece24cbfc6b053e357b10, type: 3}
