@@ -27,7 +27,7 @@ public class BarnacleShellScript : MonoBehaviour
     {
         if (TerrainAttachment != null)
         {
-            DestroyImmediate(TerrainAttachment);
+            Destroy(TerrainAttachment);
             GetComponent<Rigidbody>().AddRelativeForce(Vector3.up * 2000);
             EnemyHealthScript barnacleScript = BarnacleParent.GetComponent<EnemyHealthScript>();
             barnacleScript.Vulnerable = true;
