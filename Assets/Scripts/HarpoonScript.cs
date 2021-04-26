@@ -61,6 +61,12 @@ public class HarpoonScript : MonoBehaviour
                 audioSource.Play();
             }
 
+            if (other.gameObject.tag == "ClamCollider")
+            {
+                audioSource.clip = fleshImpactClip;
+                audioSource.Play();
+            }
+
             if (other.gameObject.tag == "EnemyHarpoonable")
             {
                 EnemyHealthScript s = other.gameObject.GetComponent<EnemyHealthScript>();
