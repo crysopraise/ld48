@@ -73,9 +73,13 @@ public class ClamScript : MonoBehaviour
             turnSpeed = shootingTurnSpeed;
             RaycastHit hit;
             Physics.SphereCast(transform.position, laserRadius, transform.forward, out hit, laserRange);
-            if (hit.collider.gameObject.CompareTag("Player")) {
-                Debug.Log("player hit! eat it bitch!!");
-                // Damage player
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    Debug.Log("player hit! eat it bitch!!");
+                    // Damage player
+                }
             }
 
             // debug laser
@@ -127,13 +131,19 @@ public class ClamScript : MonoBehaviour
 
     void PlayAttackAnimation() {
         for (int i = 0; i < 3; i++) {
-            animations[i].Play();
+            if (animations[i])
+            {
+                animations[i].Play();
+            }
         }
     }
 
     void StopAnimation() {
         for (int i = 0; i < 3; i++) {
-            animations[i].Stop();
+            if (animations[i])
+            {
+                animations[i].Stop();
+            }
         }
     }
 

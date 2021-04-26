@@ -56,9 +56,6 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float harpoonDrag;
 
-    [SerializeField] float harpoonReelDelay;    // The time you must wait after firing the harpoon before starting to reel it in
-    float harpoonReelTimer;
-
     [SerializeField] GameObject harpoon;
 
     [SerializeField] float harpoonRopeMaxLength;
@@ -66,6 +63,10 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float harpoonReelSpeed;
     [SerializeField] float harpoonStuckReelSpeed;
+    [SerializeField] float harpoonReelDelay;    // The time you must wait after firing the harpoon before starting to reel it in
+    float harpoonReelTimer;
+
+    bool harpoonReeling;
 
     Rigidbody harpoonBody;
     FixedJoint harpoonJoint;
@@ -88,8 +89,10 @@ public class PlayerMovement : MonoBehaviour
     Text torpedoCountText;
 
     AudioSource damageAudioSource;
+    AudioSource harpoonLaunchAudioSource;
     AudioSource harpoonReelAudioSource;
     [SerializeField] AudioClip damageSoundClip;
+    [SerializeField] AudioClip harpoonLaunchClip;
     [SerializeField] AudioClip harpoonReelClip;
 
     // Start is called before the first frame update
@@ -125,9 +128,15 @@ public class PlayerMovement : MonoBehaviour
 
         harpoonRopeRenderer = gameObject.GetComponent<LineRenderer>();
 
+        harpoonReeling = false;
+
         AudioSource[] audioSources = gameObject.GetComponents<AudioSource>();
         damageAudioSource = audioSources[0];
-        harpoonReelAudioSource = audioSources[1];
+
+        harpoonLaunchAudioSource = audioSources[1];
+        harpoonLaunchAudioSource.clip = harpoonLaunchClip;
+
+        harpoonReelAudioSource = audioSources[2];
         harpoonReelAudioSource.clip = harpoonReelClip;
         harpoonReelAudioSource.loop = true;
 
@@ -191,6 +200,11 @@ public class PlayerMovement : MonoBehaviour
         // reel in harpoon
         if (Input.GetKey(KeyCode.Space) && harpoonReelTimer <= 0 && !harpoonAttached)
         {
+            harpoonReeling = true;
+        }
+
+        if(harpoonReeling && harpoonReelTimer <= 0 && !harpoonAttached)
+        {
             if (harpoonScript.EnemyStuck())
             {
                 harpoonBody.velocity = (gameObject.transform.TransformPoint(harpoonAttachmentPoint) - harpoon.transform.position).normalized * harpoonStuckReelSpeed;
@@ -208,12 +222,7 @@ public class PlayerMovement : MonoBehaviour
                 harpoonRopeLength = harpoonDistance;
             }
 
-            if (harpoonRopeLength < 2.5f)
-            {
-                harpoonScript.DetachHarpoon();
-            }
-
-            if (harpoonScript.stuckInTerrain)
+            if (harpoonRopeLength < 2.5f || harpoonScript.stuckInTerrain)
             {
                 harpoonScript.DetachHarpoon();
             }
@@ -233,7 +242,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 harpoonReelAudioSource.Play();
             }
-        } else
+        }
+        else
         {
             harpoonReelAudioSource.Pause();
         }
@@ -383,6 +393,8 @@ public class PlayerMovement : MonoBehaviour
     {
         harpoonReelTimer = harpoonReelDelay;
 
+        harpoonLaunchAudioSource.Play();
+
         Destroy(harpoonJoint);
         harpoonAttached = false;
         harpoonBody.velocity = new Vector3(0, 0, 0);
@@ -405,6 +417,7 @@ public class PlayerMovement : MonoBehaviour
         harpoonJoint = harpoon.GetComponent<FixedJoint>();
         harpoonJoint.connectedBody = body;
 
+        harpoonReeling = false;
         harpoonAttached = true;
 
         // Reset harpoon rope length
