@@ -103,14 +103,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject harpoonTextObject;
     Text harpoonText;
 
-    AudioSource damageAudioSource;
-    AudioSource deathAudioSource;
-    AudioSource harpoonLaunchAudioSource;
-    AudioSource harpoonReelAudioSource;
-    [SerializeField] AudioClip damageSoundClip;
-    [SerializeField] AudioClip deathSoundClip;
-    [SerializeField] AudioClip harpoonLaunchClip;
-    [SerializeField] AudioClip harpoonReelClip;
+    [SerializeField] AudioSource damageAudioSource;
+    [SerializeField] AudioSource deathAudioSource;
+    [SerializeField] AudioSource harpoonLaunchAudioSource;
+    [SerializeField] AudioSource harpoonReelAudioSource;
+    [SerializeField] AudioSource shipDingAudioSource;
+    //[SerializeField] AudioClip damageSoundClip;
+    //[SerializeField] AudioClip deathSoundClip;
+    //[SerializeField] AudioClip harpoonLaunchClip;
+    //[SerializeField] AudioClip harpoonReelClip;
+    //[SerializeField] AudioClip shipDingClip;
 
     // Start is called before the first frame update
     void Start()
@@ -152,28 +154,30 @@ public class PlayerMovement : MonoBehaviour
 
         harpoonReeling = false;
 
-        //AudioSource[] audioSources = gameObject.GetComponents<AudioSource>();
-        //damageAudioSource = audioSources[0];
-        damageAudioSource = gameObject.AddComponent<AudioSource>();
-        damageAudioSource.clip = damageSoundClip;
-        damageAudioSource.loop = false;
+        ////AudioSource[] audioSources = gameObject.GetComponents<AudioSource>();
+        ////damageAudioSource = audioSources[0];
+        //damageAudioSource = gameObject.AddComponent<AudioSource>();
+        //damageAudioSource.clip = damageSoundClip;
+        //damageAudioSource.loop = false;
 
-        deathAudioSource = gameObject.AddComponent<AudioSource>();
-        deathAudioSource.clip = deathSoundClip;
-        deathAudioSource.loop = false;
-
-
-        //harpoonLaunchAudioSource = audioSources[1];
-        harpoonLaunchAudioSource = gameObject.AddComponent<AudioSource>();
-        harpoonLaunchAudioSource.clip = harpoonLaunchClip;
-        harpoonLaunchAudioSource.loop = false;
-
-        // harpoonReelAudioSource = audioSources[2];
-        harpoonReelAudioSource = gameObject.AddComponent<AudioSource>();
-        harpoonReelAudioSource.clip = harpoonReelClip;
-        harpoonReelAudioSource.loop = true;
+        //deathAudioSource = gameObject.AddComponent<AudioSource>();
+        //deathAudioSource.clip = deathSoundClip;
+        //deathAudioSource.loop = false;
 
 
+        ////harpoonLaunchAudioSource = audioSources[1];
+        //harpoonLaunchAudioSource = gameObject.AddComponent<AudioSource>();
+        //harpoonLaunchAudioSource.clip = harpoonLaunchClip;
+        //harpoonLaunchAudioSource.loop = false;
+
+        //// harpoonReelAudioSource = audioSources[2];
+        //harpoonReelAudioSource = gameObject.AddComponent<AudioSource>();
+        //harpoonReelAudioSource.clip = harpoonReelClip;
+        //harpoonReelAudioSource.loop = true;
+
+        //shipDingAudioSource = gameObject.AddComponent<AudioSource>();
+        //shipDingAudioSource.clip = shipDingClip;
+        //shipDingAudioSource.loop = false;
 
         ReloadHarpoon();
     }
@@ -312,6 +316,14 @@ public class PlayerMovement : MonoBehaviour
             c.a += (1.0f - deathImmediateScreenTint) * Time.deltaTime / deathScreenFadeTime;
             if (c.a > 1.0f) c.a = 1.0f;
             deathScreenFadeImage.color = c;
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.relativeVelocity.magnitude >= 10.0f && collision.gameObject.CompareTag("Terrain") && !shipDingAudioSource.isPlaying)
+        {
+            shipDingAudioSource.Play();
         }
     }
 
