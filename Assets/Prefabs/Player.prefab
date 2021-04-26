@@ -2835,12 +2835,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Left-click to fire laser
 
-    Right-click to fire torpedo
-
-    Spacebar
-    to fire harpoon
-
-    Spacebar again to reel in'
+'
 --- !u!1 &8333901614227165444
 GameObject:
   m_ObjectHideFlags: 0
@@ -3047,6 +3042,14 @@ MonoBehaviour:
   MovementText: {fileID: 0}
   WeaponsText: {fileID: 0}
   BarnacleText: {fileID: 2991518761605892024}
+  TWASD: {fileID: 7525339134759880012}
+  TQE: {fileID: 691525055433926493}
+  TShift: {fileID: 3191267969682729483}
+  TCtrl: {fileID: 1688237790868691527}
+  TLeftClick: {fileID: 121462418055688432}
+  TRightClick: {fileID: 4944931916451830295}
+  TSpacebar: {fileID: 2210184243588714381}
+  TSpacebar2: {fileID: 8375320070215473551}
 --- !u!1001 &5755425934558712229
 PrefabInstance:
   m_ObjectHideFlags: 0

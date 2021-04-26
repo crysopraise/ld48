@@ -14,6 +14,15 @@ public class InstructionsHideScript : MonoBehaviour
     float BarnacleTextShowTime = 0f;
     float BarnacleTextFadeTime = 0f;
 
+    [SerializeField] Text TWASD;
+    [SerializeField] Text TQE;
+    [SerializeField] Text TShift;
+    [SerializeField] Text TCtrl;
+    [SerializeField] Text TLeftClick;
+    [SerializeField] Text TRightClick;
+    [SerializeField] Text TSpacebar;
+    [SerializeField] Text TSpacebar2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +57,32 @@ public class InstructionsHideScript : MonoBehaviour
             Color c = BarnacleText.color;
             c.a = 1.0f * BarnacleTextFadeTime / 7.5f;
             BarnacleText.color = c;
+        }
+
+        if (Input.GetMouseButton(0)) {
+            Destroy(TLeftClick);
+        }
+        if (Input.GetMouseButton(1)) {
+            Destroy(TRightClick);
+        }
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            Destroy(TSpacebar);
+            Destroy(TSpacebar2);
+        }
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            Destroy(TQE);
+        }
+        if (Input.GetKeyDown(KeyCode.E)) {
+            Destroy(TQE);
+        }
+        if (Input.GetKeyDown(KeyCode.W)) {
+            Destroy(TWASD);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift)) {
+            Destroy(TShift);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftControl)) {
+            Destroy(TCtrl);
         }
     }
 
