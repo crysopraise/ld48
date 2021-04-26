@@ -414,8 +414,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            laserText.color = Color.gray;
-            laserHeatText.color = Color.gray;
+            hullText.color = Color.gray;
+            hullPercentageText.color = Color.gray;
         }
 
         if(harpoonAttached)
