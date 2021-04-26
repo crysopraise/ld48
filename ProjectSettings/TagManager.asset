@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - EnemyArmor
   - EnemyHarpoonable
+  - ClamCollider
   layers:
   - Default
   - TransparentFX
