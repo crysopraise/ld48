@@ -9,7 +9,7 @@ public class Endgame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -19,6 +19,10 @@ public class Endgame : MonoBehaviour
     }
 
     void OnDestroy() {
+        Invoke("Win", 3);
+    }
+
+    void Win() {
         SceneManager.LoadScene("WinScreen");
     }
 }
