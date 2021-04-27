@@ -20,13 +20,14 @@ public class GameOverScript : MonoBehaviour
 
     public void RestartGame()
     {
-        string levelToLoad = PlayerPrefs.GetString("LevelToLoad");
-        if (levelToLoad != null)
-        {
-            SceneManager.LoadScene(PlayerPrefs.GetString("LevelToLoad"));
-        } else
-        {
-            Debug.Log("No level to load!");
-        }
+        SceneManager.LoadScene("MainLevel");
+        //string levelToLoad = PlayerPrefs.GetString("LevelToLoad");
+        //if (levelToLoad != null)
+        //{
+        //    SceneManager.LoadScene(PlayerPrefs.GetString("LevelToLoad"));
+        //} else
+        //{
+        //    Debug.Log("No level to load!");
+        //}
     }
 }
