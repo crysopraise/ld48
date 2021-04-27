@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossController : MonoBehaviour
 {
@@ -29,5 +30,13 @@ public class BossController : MonoBehaviour
                 endbrainhealthscript.Vulnerable = true;
             }
         }
+    }
+
+    public void StartEndDelay() {
+        Invoke("EndGame", 3);
+    }
+
+    void EndGame() {
+        SceneManager.LoadScene("WinScreen");
     }
 }

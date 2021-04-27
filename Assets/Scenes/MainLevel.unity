@@ -6971,6 +6971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c861bd54c87c0ed4fb4514769fbad66b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BossRibcage: {fileID: 925981866}
 --- !u!114 &1587832324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9900,6 +9901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c861bd54c87c0ed4fb4514769fbad66b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BossRibcage: {fileID: 0}
 --- !u!4 &4242931617164223296
 Transform:
   m_ObjectHideFlags: 0

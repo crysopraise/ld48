@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 public class Endgame : MonoBehaviour
 {
+    [SerializeField] GameObject BossRibcage;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,10 +19,7 @@ public class Endgame : MonoBehaviour
     }
 
     void OnDestroy() {
-        Invoke("Win", 3);
+        BossRibcage.GetComponent<BossController>().StartEndDelay();
     }
 
-    void Win() {
-        SceneManager.LoadScene("WinScreen");
-    }
 }
