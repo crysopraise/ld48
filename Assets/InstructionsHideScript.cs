@@ -65,23 +65,23 @@ public class InstructionsHideScript : MonoBehaviour
         if (Input.GetMouseButton(1)) {
             Destroy(TRightClick);
         }
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKey(KeyCode.Space)) {
             Destroy(TSpacebar);
             Destroy(TSpacebar2);
         }
-        if (Input.GetKeyDown(KeyCode.Q)) {
+        if (Input.GetKey(KeyCode.Q)) {
             Destroy(TQE);
         }
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (Input.GetKey(KeyCode.E)) {
             Destroy(TQE);
         }
-        if (Input.GetKeyDown(KeyCode.W)) {
+        if (Input.GetKey(KeyCode.W)) {
             Destroy(TWASD);
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift)) {
+        if (Input.GetKey(KeyCode.LeftShift)) {
             Destroy(TShift);
         }
-        if (Input.GetKeyDown(KeyCode.LeftControl)) {
+        if (Input.GetKey(KeyCode.LeftControl)) {
             Destroy(TCtrl);
         }
     }
