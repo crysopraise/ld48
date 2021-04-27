@@ -7,6 +7,7 @@ public class BossController : MonoBehaviour
     private Animation anim;
     public int BrainsRemaining;
     public GameObject Endbrain;
+    float temptimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,10 +15,14 @@ public class BossController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         if (BrainsRemaining <= 0) {
-            anim.Play();
+            temptimer = temptimer + Time.fixedDeltaTime;
+            if (temptimer < 14.5) {
+                anim.Play();
+            } else {
+                anim.Stop();
+            }
             if (Endbrain != null)
             {
                 EnemyHealthScript endbrainhealthscript = Endbrain.GetComponent<EnemyHealthScript>();

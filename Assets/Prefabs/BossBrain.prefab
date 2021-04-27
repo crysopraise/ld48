@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 4
-  deathPrefab: {fileID: 5182876470748940741, guid: 13e81ea09345fd342ad5f4121a1af74f, type: 3}
+  deathPrefab: {fileID: 5182876470748940741, guid: d820ac42e12f77b48a457726dbe36fda, type: 3}
   enemyRootObject: {fileID: 4023841043599190394}
   deathSound: {fileID: 8300000, guid: e3027cab5a61e3f40a86d384b86b9cbb, type: 3}
   Vulnerable: 1
@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e3c2579e9d48f34d97d480a4d341f00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BossObject: {fileID: 0}
 --- !u!1 &4214745818736360470
 GameObject:
   m_ObjectHideFlags: 0
