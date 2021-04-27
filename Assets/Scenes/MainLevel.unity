@@ -6984,7 +6984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 10
-  deathPrefab: {fileID: 5182876470748940741, guid: 13e81ea09345fd342ad5f4121a1af74f, type: 3}
+  deathPrefab: {fileID: 5182876470748940741, guid: d820ac42e12f77b48a457726dbe36fda, type: 3}
   enemyRootObject: {fileID: 1587832322}
   deathSound: {fileID: 8300000, guid: e3027cab5a61e3f40a86d384b86b9cbb, type: 3}
   Vulnerable: 0
@@ -10215,7 +10215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 5
-  deathPrefab: {fileID: 5182876470748940741, guid: 13e81ea09345fd342ad5f4121a1af74f, type: 3}
+  deathPrefab: {fileID: 5182876470748940741, guid: d820ac42e12f77b48a457726dbe36fda, type: 3}
   enemyRootObject: {fileID: 3578738274806053370}
   deathSound: {fileID: 8300000, guid: e3027cab5a61e3f40a86d384b86b9cbb, type: 3}
   Vulnerable: 0
